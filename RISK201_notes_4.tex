@@ -1,77 +1,10 @@
 \documentclass{beamer}
-\mode<presentation> {\usetheme{default}}
-%\setbeamersize{text margin left=10mm,text margin right=10mm}
+\usepackage{risk201}
 
-
-\setbeamertemplate{footline}[frame number]
-
-\usepackage{amssymb}
-\usepackage{amsthm}
-\usepackage{amsmath}
-\usepackage{booktabs}
-\usepackage{needspace}
-\usepackage{comment}
-\usepackage{tikz}
-\usepackage{graphicx}
-\usepackage{bbm, dsfont}
-
-\usetikzlibrary{arrows,shapes,calc,positioning}
-
-\theoremstyle{plain}
-\newtheorem{thm}{Theorem}[section]
-\newtheorem{cor}[thm]{Corollary}
-\newtheorem{lem}[thm]{Lemma}
-\newtheorem{prop}[thm]{Proposition}
-%
-\theoremstyle{definition}
-\newtheorem{defn}{Definition}[section]
-\newtheorem{remk}{Definition}[section]
-\newtheorem{exam}{Example}[section]
-\newtheorem{prob}{Exercise}[section]
-\newtheorem{solu2}{Solution}[section]
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-
-\newcommand{\dif}{\operatorname{d}}
-\newcommand{\var}{\operatorname{Var}}
-\newcommand{\blue}[1]{\textcolor{blue}{#1}}
-\newcommand{\purple}[1]{\textcolor{purple}{#1}}
-
-% Sections of Chapter 4 are numbered 4.1, 4.2, ..., 4.5
-\renewcommand{\thesection}{4.\arabic{section}}
-
-% Actuarial angle: a_{\ang{n}i} gives a-angle-n at i
-\newcommand{\ang}[1]{\overline{#1|}}
-
-% Simple timeline: \timeline{length}{list of position/label pairs}
-\newcommand{\timeline}[2]{%
-  \begin{tikzpicture}
-    \draw (0,0) -- (#1,0);
-    \foreach \x/\lab in {#2} {
-      \draw (\x,0.12) -- (\x,-0.12);
-      \node[below] at (\x,-0.12) {\footnotesize $\lab$};
-    }
-  \end{tikzpicture}%
-}
-
-% Cash-flow timeline: \cftimeline{length}{position/time-label pairs}{position/payment-label pairs}
-\newcommand{\cftimeline}[3]{%
-  \begin{tikzpicture}
-    \draw (0,0) -- (#1,0);
-    \foreach \x/\lab in {#2} {
-      \draw (\x,0.12) -- (\x,-0.12);
-      \node[below] at (\x,-0.12) {\footnotesize $\lab$};
-    }
-    \foreach \x/\lab in {#3} {
-      \node[above] at (\x,0.12) {\footnotesize $\lab$};
-    }
-  \end{tikzpicture}%
-}
-%opening
+\setchapter{4}
+\renewcommand{\tlsize}{\footnotesize}  % fraction labels need the larger size
 
 \title{RISK 201: General and Other Annuities}
-\author{Himchan Jeong, FSA}
-\institute{Department of Statistics \& Actuarial Science \\Simon Fraser University}
-\date{}
 
 \begin{document}
 \maketitle
@@ -111,7 +44,7 @@ An alternative approach is to \textbf{replace the payments} with equivalent paym
 
 \bigskip
 \begin{center}
-\cftimeline{10}{0/0, 1/1, 2/2, 3.25/\cdots, 4.5/11, 5.5/12, 7/\cdots, 8.5/23, 9.5/24}{0/500, 1/500, 2/500, 3.25/\cdots, 4.5/500, 5.5/500, 7/\cdots, 8.5/500}
+\cfdiagram{10}{0/0, 1/1, 2/2, 3.25/\cdots, 4.5/11, 5.5/12, 7/\cdots, 8.5/23, 9.5/24}{0/{$500$}, 1/{$500$}, 2/{$500$}, 3.25/{$\cdots$}, 4.5/{$500$}, 5.5/{$500$}, 7/{$\cdots$}, 8.5/{$500$}}
 \end{center}
 
 \vfill
@@ -126,18 +59,18 @@ An alternative approach is to \textbf{replace the payments} with equivalent paym
 \end{itemize}
 
 \bigskip
-Actuarial notation for present value of an annuity that pays $1/m$ at the end of each $m$-thly period for $n$ years is $a_{\ang{n}i}^{(m)}$, read as ``a upper $m$ angle $n$ at $i$''.
+Actuarial notation for present value of an annuity that pays $1/m$ at the end of each $m$-thly period for $n$ years is $a_{\angl{n}i}^{(m)}$, read as ``a upper $m$ angle $n$ at $i$''.
 
 \end{frame}
 
 \begin{frame}{PV of annuity payable $m$-thly}
 
 \begin{center}
-\cftimeline{10}{0/0, 1.2/\frac{1}{m}, 2.4/\frac{2}{m}, 3.4/\cdots, 4.4/\frac{m-1}{m}, 5.6/1, 6.6/\cdots, 7.9/n-\frac{1}{m}, 9.4/n}{1.2/\frac{1}{m}, 2.4/\frac{1}{m}, 3.4/\cdots, 4.4/\frac{1}{m}, 5.6/\frac{1}{m}, 6.6/\cdots, 7.9/\frac{1}{m}, 9.4/\frac{1}{m}}
+\cfdiagram{10}{0/0, 1.2/\frac{1}{m}, 2.4/\frac{2}{m}, 3.4/\cdots, 4.4/\frac{m-1}{m}, 5.6/1, 6.6/\cdots, 7.9/n-\frac{1}{m}, 9.4/n}{1.2/{$\frac{1}{m}$}, 2.4/{$\frac{1}{m}$}, 3.4/{$\cdots$}, 4.4/{$\frac{1}{m}$}, 5.6/{$\frac{1}{m}$}, 6.6/{$\cdots$}, 7.9/{$\frac{1}{m}$}, 9.4/{$\frac{1}{m}$}}
 \end{center}
 
 \[
-PV = a_{\ang{n}i}^{(m)} = \frac{1-v^n}{i^{(m)}}
+PV = a_{\angl{n}i}^{(m)} = \frac{1-v^n}{i^{(m)}}
 \]
 
 \vfill
@@ -146,11 +79,11 @@ PV = a_{\ang{n}i}^{(m)} = \frac{1-v^n}{i^{(m)}}
 \begin{frame}{FV of annuity payable $m$-thly}
 
 \begin{center}
-\cftimeline{10}{0/0, 1.2/\frac{1}{m}, 2.4/\frac{2}{m}, 3.4/\cdots, 4.4/\frac{m-1}{m}, 5.6/1, 6.6/\cdots, 7.9/n-\frac{1}{m}, 9.4/n}{1.2/\frac{1}{m}, 2.4/\frac{1}{m}, 3.4/\cdots, 4.4/\frac{1}{m}, 5.6/\frac{1}{m}, 6.6/\cdots, 7.9/\frac{1}{m}, 9.4/\frac{1}{m}}
+\cfdiagram{10}{0/0, 1.2/\frac{1}{m}, 2.4/\frac{2}{m}, 3.4/\cdots, 4.4/\frac{m-1}{m}, 5.6/1, 6.6/\cdots, 7.9/n-\frac{1}{m}, 9.4/n}{1.2/{$\frac{1}{m}$}, 2.4/{$\frac{1}{m}$}, 3.4/{$\cdots$}, 4.4/{$\frac{1}{m}$}, 5.6/{$\frac{1}{m}$}, 6.6/{$\cdots$}, 7.9/{$\frac{1}{m}$}, 9.4/{$\frac{1}{m}$}}
 \end{center}
 
 \[
-FV = s_{\ang{n}i}^{(m)} = \frac{1-v^n}{i^{(m)}} \cdot (1+i)^n = \frac{(1+i)^n - 1}{i^{(m)}}
+FV = s_{\angl{n}i}^{(m)} = \frac{1-v^n}{i^{(m)}} \cdot (1+i)^n = \frac{(1+i)^n - 1}{i^{(m)}}
 \]
 
 \vfill
@@ -171,7 +104,7 @@ You will receive 96 monthly payments starting one month from now. Payments are \
 \begin{frame}{Example 4.2, continued}
 
 \begin{center}
-\cftimeline{10}{0/0, 1.2/\frac{1}{12}, 2.4/\frac{2}{12}, 3.4/\cdots, 4.4/\frac{11}{12}, 5.6/1, 6.6/\cdots, 7.9/7\frac{11}{12}, 9.4/8}{1.2/100, 2.4/100, 3.4/\cdots, 4.4/100, 5.6/100, 6.6/\cdots, 7.9/100, 9.4/100}
+\cfdiagram{10}{0/0, 1.2/\frac{1}{12}, 2.4/\frac{2}{12}, 3.4/\cdots, 4.4/\frac{11}{12}, 5.6/1, 6.6/\cdots, 7.9/7\frac{11}{12}, 9.4/8}{1.2/{$100$}, 2.4/{$100$}, 3.4/{$\cdots$}, 4.4/{$100$}, 5.6/{$100$}, 6.6/{$\cdots$}, 7.9/{$100$}, 9.4/{$100$}}
 \end{center}
 
 \vfill
@@ -180,12 +113,12 @@ You will receive 96 monthly payments starting one month from now. Payments are \
 \begin{frame}{Annuity-due payable $m$-thly}
 
 \begin{center}
-\cftimeline{10}{0/0, 1.2/\frac{1}{m}, 2.4/\frac{2}{m}, 3.4/\cdots, 4.4/1, 5.6/\frac{m+1}{m}, 6.6/\cdots, 7.9/n-\frac{1}{m}, 9.4/n}{0/\frac{1}{m}, 1.2/\frac{1}{m}, 2.4/\frac{1}{m}, 3.4/\cdots, 4.4/\frac{1}{m}, 5.6/\frac{1}{m}, 6.6/\cdots, 7.9/\frac{1}{m}}
+\cfdiagram{10}{0/0, 1.2/\frac{1}{m}, 2.4/\frac{2}{m}, 3.4/\cdots, 4.4/1, 5.6/\frac{m+1}{m}, 6.6/\cdots, 7.9/n-\frac{1}{m}, 9.4/n}{0/{$\frac{1}{m}$}, 1.2/{$\frac{1}{m}$}, 2.4/{$\frac{1}{m}$}, 3.4/{$\cdots$}, 4.4/{$\frac{1}{m}$}, 5.6/{$\frac{1}{m}$}, 6.6/{$\cdots$}, 7.9/{$\frac{1}{m}$}}
 \end{center}
 
-$\ddot{a}_{\ang{n}i}^{(m)}$ is PV of annuity that pays $1/m$ at the \textbf{beginning} of each $m$-thly period for $n$ years, $\ddot{s}_{\ang{n}i}^{(m)}$ is FV
+$\ddot{a}_{\angl{n}i}^{(m)}$ is PV of annuity that pays $1/m$ at the \textbf{beginning} of each $m$-thly period for $n$ years, $\ddot{s}_{\angl{n}i}^{(m)}$ is FV
 \[
-\ddot{a}_{\ang{n}i}^{(m)} = \frac{1-v^n}{d^{(m)}} \qquad \text{and} \qquad \ddot{s}_{\ang{n}i}^{(m)} = \frac{(1+i)^n - 1}{d^{(m)}}
+\ddot{a}_{\angl{n}i}^{(m)} = \frac{1-v^n}{d^{(m)}} \qquad \text{and} \qquad \ddot{s}_{\angl{n}i}^{(m)} = \frac{(1+i)^n - 1}{d^{(m)}}
 \]
 
 \end{frame}
@@ -203,11 +136,11 @@ A perpetuity is an annuity whose payments go on \textbf{forever}.
 \textbf{Ordinary} simple perpetuity (perpetuity-immediate):
 
 \begin{center}
-\cftimeline{8}{0/0, 1.2/1, 2.4/2, 3.6/3, 4.8/\ldots}{1.2/1, 2.4/1, 3.6/1, 4.8/\ldots}
+\cfdiagram{8}{0/0, 1.2/1, 2.4/2, 3.6/3, 4.8/\ldots}{1.2/{$1$}, 2.4/{$1$}, 3.6/{$1$}, 4.8/{$\ldots$}}
 \end{center}
 
 \[
-PV = a_{\ang{\infty}i} = 1/i
+PV = a_{\angl{\infty}i} = 1/i
 \]
 
 \end{frame}
@@ -221,12 +154,12 @@ S = a + ar + ar^2 + ar^3 + \cdots = \frac{a}{1-r}
 
 PV of ordinary perpetuity:
 \[
-a_{\ang{\infty}i} = 1/i
+a_{\angl{\infty}i} = 1/i
 \]
 
 Limiting case of an $n$-year annuity as $n \to \infty$:
 \[
-a_{\ang{\infty}i} = \lim_{n\to\infty} a_{\ang{n}i} = \lim_{n\to\infty} \frac{1-v^n}{i}
+a_{\angl{\infty}i} = \lim_{n\to\infty} a_{\angl{n}i} = \lim_{n\to\infty} \frac{1-v^n}{i}
 \]
 
 \vfill
@@ -235,11 +168,11 @@ a_{\ang{\infty}i} = \lim_{n\to\infty} a_{\ang{n}i} = \lim_{n\to\infty} \frac{1-v
 \begin{frame}{Perpetuity due}
 
 \begin{center}
-\cftimeline{8}{0/0, 1.2/1, 2.4/2, 3.6/3, 4.8/\ldots}{0/1, 1.2/1, 2.4/1, 3.6/1, 4.8/\ldots}
+\cfdiagram{8}{0/0, 1.2/1, 2.4/2, 3.6/3, 4.8/\ldots}{0/{$1$}, 1.2/{$1$}, 2.4/{$1$}, 3.6/{$1$}, 4.8/{$\ldots$}}
 \end{center}
 
 \[
-PV = \ddot{a}_{\ang{\infty}i} = 1 + v + v^2 + \cdots = 1 + \frac{1}{i} = 1/d
+PV = \ddot{a}_{\angl{\infty}i} = 1 + v + v^2 + \cdots = 1 + \frac{1}{i} = 1/d
 \]
 
 \vfill
@@ -498,7 +431,7 @@ Amortization period & 25 years & 25 years \\
 Qualifying rate & 4.79\% & 5.25\% \\
 Maximum monthly pmt & 3,250 & 3,250 \\
  & (=\textcolor{red}{39\%}*\blue{100,000}/12) & (=\textcolor{red}{39\%}*\blue{100,000}/12) \\
-Maximum mortgage & $3250\,a^{(12)}_{\ang{25}0.0479} = 573{,}643$ & $3250\,a^{(12)}_{\ang{25}0.0525} = 548{,}934$ \\
+Maximum mortgage & $3250\,a^{(12)}_{\angl{25}0.0479} = 573{,}643$ & $3250\,a^{(12)}_{\angl{25}0.0525} = 548{,}934$ \\
 Maximum home value & 623,643 & 598,934 \\
 \bottomrule
 \end{tabular}
@@ -613,14 +546,14 @@ Maximum home value & 623,643 & 598,934 \\
 
 \begin{frame}{4.4 Continuous Annuities}
 
-The \textbf{present value} of an annuity making payments \textbf{continuously} at a rate of 1 per interest period for $n$ periods is denoted by $\bar{a}_{\ang{n}}$.
+The \textbf{present value} of an annuity making payments \textbf{continuously} at a rate of 1 per interest period for $n$ periods is denoted by $\bar{a}_{\angl{n}}$.
 
 \begin{center}
 \timeline{9}{0/0, 2.2/t, 2.9/t+dt, 4.2/1, 6.2/\ldots, 8.5/n}
 \end{center}
 
 \[
-\bar{a}_{\ang{n}} = \int_0^n v^t\,dt = \int_0^n e^{-\delta t}\,dt
+\bar{a}_{\angl{n}} = \int_0^n v^t\,dt = \int_0^n e^{-\delta t}\,dt
 \]
 
 \vfill
@@ -635,7 +568,7 @@ Recall that
 
 Then
 \[
-\bar{a}_{\ang{n}} = \frac{1-v^n}{\delta} = \lim_{m\to\infty} \frac{1-v^n}{i^{(m)}} = \lim_{m\to\infty} a_{\ang{n}}^{(m)}
+\bar{a}_{\angl{n}} = \frac{1-v^n}{\delta} = \lim_{m\to\infty} \frac{1-v^n}{i^{(m)}} = \lim_{m\to\infty} a_{\angl{n}}^{(m)}
 \]
 
 \end{frame}
@@ -649,12 +582,12 @@ Then
   \node at (8,0.5) {\small $1$};
   \draw (0,0) -- (8,0);
   \foreach \k in {0,...,8} \draw (\k,0.12) -- (\k,-0.12);
-  \node[anchor=east] at (-0.2,-1) {$a_{\ang{1}}$};
-  \node[anchor=east] at (-0.2,-2) {$a_{\ang{1}}^{(2)}$};
-  \node[anchor=east] at (-0.2,-3) {$a_{\ang{1}}^{(4)}$};
-  \node[anchor=east] at (-0.2,-4) {$a_{\ang{1}}^{(8)}$};
+  \node[anchor=east] at (-0.2,-1) {$a_{\angl{1}}$};
+  \node[anchor=east] at (-0.2,-2) {$a_{\angl{1}}^{(2)}$};
+  \node[anchor=east] at (-0.2,-3) {$a_{\angl{1}}^{(4)}$};
+  \node[anchor=east] at (-0.2,-4) {$a_{\angl{1}}^{(8)}$};
   \node[anchor=east] at (-0.6,-4.9) {$\vdots$};
-  \node[anchor=east] at (-0.2,-5.8) {$\bar{a}_{\ang{1}}$};
+  \node[anchor=east] at (-0.2,-5.8) {$\bar{a}_{\angl{1}}$};
   \node at (8,-1) {$1$};
   \foreach \k in {4,8} \node at (\k,-2) {$\frac{1}{2}$};
   \foreach \k in {2,4,6,8} \node at (\k,-3) {$\frac{1}{4}$};
@@ -667,7 +600,7 @@ Then
 \begin{frame}{Limit of $m$-thly annuity-due}
 
 \[
-\lim_{m\to\infty} d^{(m)} = \delta \quad\Rightarrow\quad \bar{a}_{\ang{n}} = \lim_{m\to\infty} \ddot{a}_{\ang{n}}^{(m)}
+\lim_{m\to\infty} d^{(m)} = \delta \quad\Rightarrow\quad \bar{a}_{\angl{n}} = \lim_{m\to\infty} \ddot{a}_{\angl{n}}^{(m)}
 \]
 
 \begin{center}
@@ -677,11 +610,11 @@ Then
   \node at (8,0.5) {\small $1$};
   \draw (0,0) -- (8,0);
   \foreach \k in {0,...,8} \draw (\k,0.12) -- (\k,-0.12);
-  \node[anchor=east] at (-0.2,-1) {$\ddot{a}_{\ang{1}}$};
-  \node[anchor=east] at (-0.2,-2) {$\ddot{a}_{\ang{1}}^{(2)}$};
-  \node[anchor=east] at (-0.2,-3) {$\ddot{a}_{\ang{1}}^{(4)}$};
-  \node[anchor=east] at (-0.2,-4) {$\ddot{a}_{\ang{1}}^{(8)}$};
-  \node[anchor=east] at (-0.2,-5) {$\bar{a}_{\ang{1}}$};
+  \node[anchor=east] at (-0.2,-1) {$\ddot{a}_{\angl{1}}$};
+  \node[anchor=east] at (-0.2,-2) {$\ddot{a}_{\angl{1}}^{(2)}$};
+  \node[anchor=east] at (-0.2,-3) {$\ddot{a}_{\angl{1}}^{(4)}$};
+  \node[anchor=east] at (-0.2,-4) {$\ddot{a}_{\angl{1}}^{(8)}$};
+  \node[anchor=east] at (-0.2,-5) {$\bar{a}_{\angl{1}}$};
   \node at (0,-1) {$1$};
   \foreach \k in {0,4} \node at (\k,-2) {$\frac{1}{2}$};
   \foreach \k in {0,2,4,6} \node at (\k,-3) {$\frac{1}{4}$};
@@ -693,14 +626,14 @@ Then
 
 \begin{frame}{Accumulated value}
 
-The \textbf{accumulated value} of an annuity making payments \textbf{continuously} at a rate of 1 per interest period for $n$ periods is denoted by $\bar{s}_{\ang{n}}$.
+The \textbf{accumulated value} of an annuity making payments \textbf{continuously} at a rate of 1 per interest period for $n$ periods is denoted by $\bar{s}_{\angl{n}}$.
 
 \begin{center}
 \timeline{9}{0/0, 2.2/t, 2.9/t+dt, 4.2/1, 6.2/\ldots, 8.5/n}
 \end{center}
 
 \[
-\bar{s}_{\ang{n}} = \int_0^n e^{\delta(n-t)}\,dt = e^{\delta n}\int_0^n e^{-\delta t}\,dt = e^{\delta n}\,\bar{a}_{\ang{n}} = \frac{(1+i)^n - 1}{\delta}
+\bar{s}_{\angl{n}} = \int_0^n e^{\delta(n-t)}\,dt = e^{\delta n}\int_0^n e^{-\delta t}\,dt = e^{\delta n}\,\bar{a}_{\angl{n}} = \frac{(1+i)^n - 1}{\delta}
 \]
 
 \vfill
@@ -738,9 +671,9 @@ I also recommend you try quarterly / bi-annually / usual annuities and compare t
 \end{center}
 
 \begin{align*}
-\bar{a}_{\ang{n}} &= \int_0^n e^{-\int_0^t \delta_s\,ds}\,dt \\
+\bar{a}_{\angl{n}} &= \int_0^n e^{-\int_0^t \delta_s\,ds}\,dt \\
 &= \int_0^n e^{-\int_0^t \delta\,ds}\,dt = \int_0^n e^{-t\delta}\,dt = \frac{1-v^n}{\delta} \quad \text{\textcolor{red}{(if $\delta$ is constant)}} \\[1ex]
-\bar{s}_{\ang{n}} &= \int_0^n e^{\int_t^n \delta_s\,ds}\,dt
+\bar{s}_{\angl{n}} &= \int_0^n e^{\int_t^n \delta_s\,ds}\,dt
 \end{align*}
 
 \end{frame}
@@ -750,7 +683,7 @@ I also recommend you try quarterly / bi-annually / usual annuities and compare t
 A level annuity pays \$100 per annum continuously for 20 years. If $\delta_t = \frac{1}{1+t}$, calculate the present value of this annuity.
 
 \begin{align*}
-PV = 100\,\bar{a}_{\ang{20}} &= 100\int_0^{20} e^{-\int_0^t \delta_s\,ds}\,dt = 100\int_0^{20} e^{-\int_0^t \frac{1}{1+s}\,ds}\,dt \\
+PV = 100\,\bar{a}_{\angl{20}} &= 100\int_0^{20} e^{-\int_0^t \delta_s\,ds}\,dt = 100\int_0^{20} e^{-\int_0^t \frac{1}{1+s}\,ds}\,dt \\
 &= 100\int_0^{20} e^{-\ln(t+1)}\,dt \\
 &= 100\int_0^{20} 1/(t+1)\,dt = 100\ln 21
 \end{align*}
@@ -862,7 +795,7 @@ Suppose the pension plan makes monthly payments of \$2,000 starting one month fr
   \begin{itemize}
   \item $n$-year increasing ordinary annuity
   \[
-  PV = (Ia)_{\ang{n}i}, \quad FV = (Is)_{\ang{n}i}
+  PV = (Ia)_{\angl{n}i}, \quad FV = (Is)_{\angl{n}i}
   \]
   \item $n$-year decreasing ordinary annuity
   \item $n$-year increasing annuity-due
@@ -890,11 +823,11 @@ Suppose the pension plan makes monthly payments of \$2,000 starting one month fr
 \vspace{-1ex}
 \small
 \begin{align*}
-(Ia)_{\ang{n}i} &= 1v + 2v^2 + 3v^3 + 4v^4 + \cdots + nv^n \\
-v\,(Ia)_{\ang{n}i} &= \phantom{1v + {}} 1v^2 + 2v^3 + 3v^4 + \cdots + (n-1)v^n \textcolor{red}{{}+ nv^{n+1}} \\
-(1-v)(Ia)_{\ang{n}i} &= \blue{v + v^2 + v^3 + \cdots + v^n} \textcolor{red}{{}- nv^{n+1}} = \blue{a_{\ang{n}i}} \textcolor{red}{{}- nv^{n+1}} \\
-\therefore\ (Ia)_{\ang{n}i} &= \frac{a_{\ang{n}i} - nv^{n+1}}{1-v} = \frac{(a_{\ang{n}i} - nv^{n+1})(1+i)}{(1-v)(1+i)} = \frac{\ddot{a}_{\ang{n}i} - nv^n}{i} \\
-(Is)_{\ang{n}i} &= (Ia)_{\ang{n}i}\,(1+i)^n = \frac{\ddot{s}_{\ang{n}i} - n}{i}
+(Ia)_{\angl{n}i} &= 1v + 2v^2 + 3v^3 + 4v^4 + \cdots + nv^n \\
+v\,(Ia)_{\angl{n}i} &= \phantom{1v + {}} 1v^2 + 2v^3 + 3v^4 + \cdots + (n-1)v^n \textcolor{red}{{}+ nv^{n+1}} \\
+(1-v)(Ia)_{\angl{n}i} &= \blue{v + v^2 + v^3 + \cdots + v^n} \textcolor{red}{{}- nv^{n+1}} = \blue{a_{\angl{n}i}} \textcolor{red}{{}- nv^{n+1}} \\
+\therefore\ (Ia)_{\angl{n}i} &= \frac{a_{\angl{n}i} - nv^{n+1}}{1-v} = \frac{(a_{\angl{n}i} - nv^{n+1})(1+i)}{(1-v)(1+i)} = \frac{\ddot{a}_{\angl{n}i} - nv^n}{i} \\
+(Is)_{\angl{n}i} &= (Ia)_{\angl{n}i}\,(1+i)^n = \frac{\ddot{s}_{\angl{n}i} - n}{i}
 \end{align*}
 
 \end{frame}
@@ -917,11 +850,11 @@ v\,(Ia)_{\ang{n}i} &= \phantom{1v + {}} 1v^2 + 2v^3 + 3v^4 + \cdots + (n-1)v^n \
 \vspace{-1ex}
 \small
 \begin{align*}
-(Da)_{\ang{n}i} &= \phantom{n + {}} nv + (n-1)v^2 + (n-2)v^3 + \cdots + 1v^n \\
-\frac{1}{v}\,(Da)_{\ang{n}i} &= n + (n-1)v + (n-2)v^2 + \cdots + 1v^{n-1} \\
-\frac{1-v}{v}\,(Da)_{\ang{n}i} &= n - \blue{\left(v + v^2 + \cdots + v^{n-1} + v^n\right)} = n - \blue{a_{\ang{n}i}} \\
-\therefore\ (Da)_{\ang{n}i} &= \frac{v}{1-v}\left(n - \blue{a_{\ang{n}i}}\right) = \frac{n - \blue{a_{\ang{n}i}}}{i} \\
-(Ds)_{\ang{n}i} &= (Da)_{\ang{n}i}\,(1+i)^n = \frac{n(1+i)^n - \blue{s_{\ang{n}i}}}{i}
+(Da)_{\angl{n}i} &= \phantom{n + {}} nv + (n-1)v^2 + (n-2)v^3 + \cdots + 1v^n \\
+\frac{1}{v}\,(Da)_{\angl{n}i} &= n + (n-1)v + (n-2)v^2 + \cdots + 1v^{n-1} \\
+\frac{1-v}{v}\,(Da)_{\angl{n}i} &= n - \blue{\left(v + v^2 + \cdots + v^{n-1} + v^n\right)} = n - \blue{a_{\angl{n}i}} \\
+\therefore\ (Da)_{\angl{n}i} &= \frac{v}{1-v}\left(n - \blue{a_{\angl{n}i}}\right) = \frac{n - \blue{a_{\angl{n}i}}}{i} \\
+(Ds)_{\angl{n}i} &= (Da)_{\angl{n}i}\,(1+i)^n = \frac{n(1+i)^n - \blue{s_{\angl{n}i}}}{i}
 \end{align*}
 
 \end{frame}
@@ -942,10 +875,10 @@ v\,(Ia)_{\ang{n}i} &= \phantom{1v + {}} 1v^2 + 2v^3 + 3v^4 + \cdots + (n-1)v^n \
 \end{center}
 
 \begin{align*}
-(I\ddot{a})_{\ang{n}i} &= (Ia)_{\ang{n}i}\,(1+i) = \frac{\ddot{a}_{\ang{n}i} - nv^n}{d} \\
-(I\ddot{s})_{\ang{n}i} &= (Is)_{\ang{n}i}\,(1+i) = \frac{\ddot{s}_{\ang{n}i} - n}{d} \\
-(D\ddot{a})_{\ang{n}i} &= (Da)_{\ang{n}i}\,(1+i) = \frac{n - a_{\ang{n}i}}{d} \\
-(D\ddot{s})_{\ang{n}i} &= (Ds)_{\ang{n}i}\,(1+i) = \frac{n(1+i)^n - s_{\ang{n}i}}{d}
+(I\ddot{a})_{\angl{n}i} &= (Ia)_{\angl{n}i}\,(1+i) = \frac{\ddot{a}_{\angl{n}i} - nv^n}{d} \\
+(I\ddot{s})_{\angl{n}i} &= (Is)_{\angl{n}i}\,(1+i) = \frac{\ddot{s}_{\angl{n}i} - n}{d} \\
+(D\ddot{a})_{\angl{n}i} &= (Da)_{\angl{n}i}\,(1+i) = \frac{n - a_{\angl{n}i}}{d} \\
+(D\ddot{s})_{\angl{n}i} &= (Ds)_{\angl{n}i}\,(1+i) = \frac{n(1+i)^n - s_{\angl{n}i}}{d}
 \end{align*}
 
 \end{frame}
@@ -964,10 +897,10 @@ You bought a perpetuity-due with annual payments starting at \$50 and increasing
 
 \begin{frame}{Continuously varying annuities}
 
-The present value of an $n$-year annuity for which payments are made continuously at a rate of $t$ at time $t$ is denoted by $(\bar{I}\bar{a})_{\ang{n}i}$. The accumulated value at the end of the $n$-year period is denoted by $(\bar{I}\bar{s})_{\ang{n}i}$.
+The present value of an $n$-year annuity for which payments are made continuously at a rate of $t$ at time $t$ is denoted by $(\bar{I}\bar{a})_{\angl{n}i}$. The accumulated value at the end of the $n$-year period is denoted by $(\bar{I}\bar{s})_{\angl{n}i}$.
 \begin{align*}
-(\bar{I}\bar{a})_{\ang{n}i} &= \frac{\bar{a}_{\ang{n}i} - nv^n}{\delta} \\[1ex]
-(\bar{I}\bar{s})_{\ang{n}i} &= \frac{\bar{s}_{\ang{n}i} - n}{\delta}
+(\bar{I}\bar{a})_{\angl{n}i} &= \frac{\bar{a}_{\angl{n}i} - nv^n}{\delta} \\[1ex]
+(\bar{I}\bar{s})_{\angl{n}i} &= \frac{\bar{s}_{\angl{n}i} - n}{\delta}
 \end{align*}
 
 \end{frame}

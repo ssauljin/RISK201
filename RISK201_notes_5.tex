@@ -1,79 +1,10 @@
 \documentclass{beamer}
-\mode<presentation> {\usetheme{default}}
-%\setbeamersize{text margin left=10mm,text margin right=10mm}
+\usepackage{risk201}
 
-
-\setbeamertemplate{footline}[frame number]
-
-\usepackage{amssymb}
-\usepackage{amsthm}
-\usepackage{amsmath}
-\usepackage{booktabs}
-\usepackage{needspace}
-\usepackage{comment}
-\usepackage{tikz}
-\usepackage{graphicx}
-\usepackage{bbm, dsfont}
-
-\usetikzlibrary{arrows,shapes,calc,positioning}
-
-\theoremstyle{plain}
-\newtheorem{thm}{Theorem}[section]
-\newtheorem{cor}[thm]{Corollary}
-\newtheorem{lem}[thm]{Lemma}
-\newtheorem{prop}[thm]{Proposition}
-%
-\theoremstyle{definition}
-\newtheorem{defn}{Definition}[section]
-\newtheorem{remk}{Definition}[section]
-\newtheorem{exam}{Example}[section]
-\newtheorem{prob}{Exercise}[section]
-\newtheorem{solu2}{Solution}[section]
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-
-\newcommand{\dif}{\operatorname{d}}
-\newcommand{\var}{\operatorname{Var}}
-\newcommand{\blue}[1]{\textcolor{blue}{#1}}
-\newcommand{\purple}[1]{\textcolor{purple}{#1}}
-
-% Sections of Chapter 5 are numbered 5.1, 5.2, ..., 5.5
-\renewcommand{\thesection}{5.\arabic{section}}
-
-% Actuarial angle: a_{\ang{n}i} gives a-angle-n at i
-\newcommand{\ang}[1]{\overline{#1|}}
-
-% Simple timeline: \timeline{length}{list of position/label pairs}
-\newcommand{\timeline}[2]{%
-  \begin{tikzpicture}
-    \draw (0,0) -- (#1,0);
-    \foreach \x/\lab in {#2} {
-      \draw (\x,0.12) -- (\x,-0.12);
-      \node[below] at (\x,-0.12) {\footnotesize $\lab$};
-    }
-  \end{tikzpicture}%
-}
-
-% Cash-flow timeline: \cftimeline{length}{position/time-label pairs}{position/payment-label pairs}
-\newcommand{\cftimeline}[3]{%
-  \begin{tikzpicture}
-    \draw (0,0) -- (#1,0);
-    \foreach \x/\lab in {#2} {
-      \draw (\x,0.12) -- (\x,-0.12);
-      \node[below] at (\x,-0.12) {\footnotesize $\lab$};
-    }
-    \foreach \x/\lab in {#3} {
-      \node[above] at (\x,0.12) {\footnotesize $\lab$};
-    }
-  \end{tikzpicture}%
-}
-\newcommand{\green}[1]{\textcolor{green!50!black}{#1}}
-\newcommand{\red}[1]{\textcolor{red}{#1}}
-%opening
+\setchapter{5}
+\renewcommand{\tlsize}{\footnotesize}  % fraction labels need the larger size
 
 \title{RISK 201: Repayment of Debts}
-\author{Himchan Jeong, FSA}
-\institute{Department of Statistics \& Actuarial Science \\Simon Fraser University}
-\date{}
 
 \begin{document}
 \maketitle
@@ -155,7 +86,7 @@ Consider a loan to be repaid by $n$ installments of $K$.
 \toprule
 Period & Pmt & $I_t = i \cdot OB_{t-1}$ & $PR_t = K - I_t$ & $OB_t$ \\
 \midrule
-0 & & & & $K a_{\ang{n}}$ \\
+0 & & & & $K a_{\angl{n}}$ \\
 1 & $K$ & & & \\
 2 & $K$ & & & \\
 \ldots & \ldots & \ldots & \ldots & \ldots \\
@@ -170,9 +101,9 @@ $n$ & $K$ & & & \\
 \begin{frame}{Special relationships (level pmts)}
 
 \begin{align*}
-L = OB_0 &= K a_{\ang{n}} \\[1ex]
-OB_t &= K a_{\ang{n-t}} \\[1ex]
-I_t &= i \cdot K a_{\ang{n-t+1}} = K\left(1 - v^{n-t+1}\right) \\[1ex]
+L = OB_0 &= K a_{\angl{n}} \\[1ex]
+OB_t &= K a_{\angl{n-t}} \\[1ex]
+I_t &= i \cdot K a_{\angl{n-t+1}} = K\left(1 - v^{n-t+1}\right) \\[1ex]
 PR_t &= K - I_t = K v^{n-t+1}
 \end{align*}
 
@@ -275,8 +206,8 @@ Consider a loan $L$ that is amortized by $n$ level installment payments of $K$.
 \end{center}
 
 \begin{tabular}{ll}
-Focal date at time $0$: & $L = K a_{\ang{n}i}$ \\[1ex]
-Focal date at time $t$: & $\phantom{L = {}} K a_{\ang{n-t}i}$
+Focal date at time $0$: & $L = K a_{\angl{n}i}$ \\[1ex]
+Focal date at time $t$: & $\phantom{L = {}} K a_{\angl{n-t}i}$
 \end{tabular}
 
 \vfill
@@ -285,12 +216,12 @@ Focal date at time $t$: & $\phantom{L = {}} K a_{\ang{n-t}i}$
 \begin{frame}{Outstanding balance (level pmts)}
 
 \begin{center}
-\loandiagram{\red{$L$}}{1/K, 2/K, 4/K}{\color{green!50!black}}{5/K, 8/K}{\color{purple}}
+\loandiagram{\red{$L$}}{1/K, 2/K, 4/K}{\color{dgreen}}{5/K, 8/K}{\color{purple}}
 \end{center}
 
 \begin{tabular}{ll}
-Prospectively: & $OB_t = \purple{K a_{\ang{n-t}i}}$ \\[1ex]
-Retrospectively: & $OB_t = \red{L(1+i)^t} - \green{K s_{\ang{t}i}}$
+Prospectively: & $OB_t = \purple{K a_{\angl{n-t}i}}$ \\[1ex]
+Retrospectively: & $OB_t = \red{L(1+i)^t} - \green{K s_{\angl{t}i}}$
 \end{tabular}
 
 \vfill
@@ -299,7 +230,7 @@ Retrospectively: & $OB_t = \red{L(1+i)^t} - \green{K s_{\ang{t}i}}$
 \begin{frame}{Outstanding balance (general)}
 
 \begin{center}
-\loandiagram{\red{$L$}}{1/K_1, 2/K_2, 3/\ldots, 4/K_t}{\color{green!50!black}}{5/K_{t+1}, 6.5/\ldots, 8/K_n}{\color{purple}}
+\loandiagram{\red{$L$}}{1/K_1, 2/K_2, 3/\ldots, 4/K_t}{\color{dgreen}}{5/K_{t+1}, 6.5/\ldots, 8/K_n}{\color{purple}}
 \end{center}
 
 \begin{align*}
@@ -328,7 +259,7 @@ Period & $K_t$ & $I_t$ & $PR_t$ & $OB_t$ \\
 \end{center}
 
 \[
-OB_2 = \red{5000(1.1)^2} - \green{1318.9874\, s_{\ang{2}10\%}} \approx \purple{1318.9874\, a_{\ang{3}10\%}}
+OB_2 = \red{5000(1.1)^2} - \green{1318.9874\, s_{\angl{2}10\%}} \approx \purple{1318.9874\, a_{\angl{3}10\%}}
 \]
 
 \end{frame}
@@ -352,7 +283,7 @@ Period & $K_t$ & $I_t$ & $PR_t$ & $OB_t$ \\
 \end{center}
 
 \[
-OB_2 = \purple{1318.9874\, a_{\ang{3}10\%}}
+OB_2 = \purple{1318.9874\, a_{\angl{3}10\%}}
 \]
 
 \end{frame}
@@ -363,17 +294,17 @@ A 500,000 mortgage is taken out over 25 years. The interest rate is fixed at $i^
 \begin{enumerate}[a)]
 \item Calculate the monthly payment.
 \[
-500000 = K a_{\ang{300}0.0025}, \qquad K = 2371.057
+500000 = K a_{\angl{300}0.0025}, \qquad K = 2371.057
 \]
 \item What is the outstanding balance after 5 years?
 \[
-K a_{\ang{240}0.0025} = 427572.4
+K a_{\angl{240}0.0025} = 427572.4
 \]
 \item How much interest is paid over the first 5 years?
 
 \red{Total payments -- paid principal} $=$
 \[
-60K - \left(K a_{\ang{300}0.0025} - K a_{\ang{240}0.0025}\right) = 69790.77
+60K - \left(K a_{\angl{300}0.0025} - K a_{\angl{240}0.0025}\right) = 69790.77
 \]
 \end{enumerate}
 
@@ -413,11 +344,11 @@ Consider the mortgage in Example 5.5. After 2 years, the 5-year fixed rate avail
 \begin{enumerate}[a)]
 \item Calculate the outstanding balance on the original mortgage after 2 years.
 \[
-K a_{\ang{276}0.0025} = 472306.7
+K a_{\angl{276}0.0025} = 472306.7
 \]
 \item What would be the new mortgage payments if refinancing the loan (amortizing over 23 years)?
 \[
-K' a_{\ang{276}0.002} = 472306.7, \qquad K' = 2228.46
+K' a_{\angl{276}0.002} = 472306.7, \qquad K' = 2228.46
 \]
 \end{enumerate}
 
@@ -429,7 +360,7 @@ K' a_{\ang{276}0.002} = 472306.7, \qquad K' = 2228.46
 \setcounter{enumi}{2}
 \item What is the outstanding balance at the end of the first 5 years if the mortgage is refinanced?
 \[
-K' a_{\ang{240}0.002} = 424433.2
+K' a_{\angl{240}0.002} = 424433.2
 \]
 \end{enumerate}
 
@@ -445,7 +376,7 @@ K' a_{\ang{240}0.002} = 424433.2
 
 \red{Total payments -- paid principal} $=$
 \begin{align*}
-&24K + 36K' - \left(500{,}000 - K' a_{\ang{240}0.002}\right) \\
+&24K + 36K' - \left(500{,}000 - K' a_{\angl{240}0.002}\right) \\
 &= 61563.26
 \end{align*}
 
@@ -458,7 +389,7 @@ K' a_{\ang{240}0.002} = 424433.2
 \setcounter{enumi}{4}
 \item The lender charges 3 times the monthly interest on the outstanding balance as a penalty. How much is it?
 \[
-3 \times 0.25\% \times K a_{\ang{276}0.0025} = 3542.301
+3 \times 0.25\% \times K a_{\angl{276}0.0025} = 3542.301
 \]
 \item Is it worthwhile for the borrower to refinance at the lower rate?
 \end{enumerate}
@@ -466,7 +397,7 @@ K' a_{\ang{240}0.002} = 424433.2
 \small
 Note that you are paying $K - K'$ less for the remaining 276 months if you refinance. Therefore, PV of refinance at time 2:
 \[
-= \left(K - K'\right) a_{\ang{276}0.002} - 3542.301 = 27221.42
+= \left(K - K'\right) a_{\angl{276}0.002} - 3542.301 = 27221.42
 \]
 \red{Thus, it is worthwhile to refinance at the lower rate.}
 
@@ -483,7 +414,7 @@ Note that you are paying $K - K'$ less for the remaining 276 months if you refin
 \medskip
 \item Deposits of \purple{$K$} are made to the sinking fund, which earns a rate $j$ per period and accumulates to the desired amount \red{$A$} after $n$ periods:
 \[
-\purple{K} s_{\ang{n}j} = \red{A}
+\purple{K} s_{\angl{n}j} = \red{A}
 \]
 \end{itemize}
 
@@ -493,7 +424,7 @@ Note that you are paying $K - K'$ less for the remaining 276 months if you refin
 
 (Brown \& Kopp 5.4.A2) A company wants to save \$100,000 over the next 5 years to expand its plant facility. How much must be deposited at the end of each year if the deposits earn interest at $i^{(1)} = 8\%$?
 \[
-100{,}000 = K s_{\ang{5}0.08}, \qquad K = 17045.65
+100{,}000 = K s_{\angl{5}0.08}, \qquad K = 17045.65
 \]
 
 \vfill
@@ -513,7 +444,7 @@ Time & Interest on SF & Deposit (EOY) & Amount in fund \\
 4 & & 17,045.65 & \\
 5 & & 17,045.65 & \\
 \midrule
-$t$ & & $K = A/s_{\ang{n}j}$ & $K s_{\ang{t}j}$ \\
+$t$ & & $K = A/s_{\angl{n}j}$ & $K s_{\angl{t}j}$ \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -563,10 +494,10 @@ $t$ & & $K = A/s_{\ang{n}j}$ & $K s_{\ang{t}j}$ \\
 \end{tikzpicture}
 \end{center}
 
-where \red{$L$} $= \purple{K} s_{\ang{n}j}$
+where \red{$L$} $= \purple{K} s_{\angl{n}j}$
 
 \bigskip
-Total cost of debt to borrower: \green{$iL$} $+ \purple{\dfrac{L}{s_{\ang{n}j}}}$
+Total cost of debt to borrower: \green{$iL$} $+ \purple{\dfrac{L}{s_{\angl{n}j}}}$
 
 \end{frame}
 
@@ -633,10 +564,10 @@ Total cost of debt to borrower: \green{$iL$} $+ \purple{\dfrac{L}{s_{\ang{n}j}}}
 \textbf{t} & \textbf{Int} & \textbf{OB} & \textbf{Deposit} & \textbf{Interest} & \textbf{AV} & \textbf{of debt} & \textbf{of loan} \\
 \midrule
 1 & $iL$ & $L$ & $K$ & 0 & $K$ & $iL+K$ & $L-K$ \\
-2 & $iL$ & $L$ & $K$ & $jK$ & $K s_{\ang{2}j}$ & $iL+K$ & $L - K s_{\ang{2}j}$ \\
+2 & $iL$ & $L$ & $K$ & $jK$ & $K s_{\angl{2}j}$ & $iL+K$ & $L - K s_{\angl{2}j}$ \\
 .. & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots \\
-$n-1$ & $iL$ & $L$ & $K$ & $jK s_{\ang{n-2}j}$ & $K s_{\ang{n-1}j}$ & $iL+K$ & $L - K s_{\ang{n-1}j}$ \\
-$n$ & $iL$ & $L$ & $K$ & $jK s_{\ang{n-1}j}$ & $K s_{\ang{n}j}$ & $iL+K$ & $0$ \\
+$n-1$ & $iL$ & $L$ & $K$ & $jK s_{\angl{n-2}j}$ & $K s_{\angl{n-1}j}$ & $iL+K$ & $L - K s_{\angl{n-1}j}$ \\
+$n$ & $iL$ & $L$ & $K$ & $jK s_{\angl{n-1}j}$ & $K s_{\angl{n}j}$ & $iL+K$ & $0$ \\
 \bottomrule
 \end{tabular}%
 }
@@ -673,9 +604,9 @@ $n$ & $iL$ & $L$ & $K$ & $jK s_{\ang{n-1}j}$ & $K s_{\ang{n}j}$ & $iL+K$ & $0$ \
   \node[above] at (0,0.1) {$L$};
   \node[anchor=east] at (0.4,-1.5) {\footnotesize Amortization method:};
   \node[anchor=east] at (0.4,-3) {\footnotesize Sinking-fund method:};
-  \foreach \x in {1.8,3.6,6.9} \node at (\x,-1.5) {$\dfrac{\red{L}}{\red{a_{\ang{n}i_A}}}$};
+  \foreach \x in {1.8,3.6,6.9} \node at (\x,-1.5) {$\dfrac{\red{L}}{\red{a_{\angl{n}i_A}}}$};
   \node at (5.3,-1.5) {$\ldots$};
-  \foreach \x in {1.8,3.6,6.9} \node at (\x,-3) {$\green{i_S L} + \dfrac{L}{\purple{s_{\ang{n}j}}}$};
+  \foreach \x in {1.8,3.6,6.9} \node at (\x,-3) {$\green{i_S L} + \dfrac{L}{\purple{s_{\angl{n}j}}}$};
   \node at (5.3,-3) {$\ldots$};
 \end{tikzpicture}
 \end{center}
@@ -686,12 +617,12 @@ $n$ & $iL$ & $L$ & $K$ & $jK s_{\ang{n-1}j}$ & $K s_{\ang{n}j}$ & $iL+K$ & $0$ \
 
 \textbf{When $i_A = i_S = j$:}
 \begin{itemize}
-\item Periodic payment under amortization method: $\red{\dfrac{L}{a_{\ang{n}j}}}$
+\item Periodic payment under amortization method: $\red{\dfrac{L}{a_{\angl{n}j}}}$
 \item Periodic payment under SF method:
 \end{itemize}
 \begin{align*}
-\green{jL} + \purple{\frac{L}{s_{\ang{n}j}}} &= L\left(j + \frac{j}{(1+j)^n - 1}\right) = L\left(\frac{j(1+j)^n - j + j}{(1+j)^n - 1}\right) \\
-&= L\left(\frac{j}{1 - v^n}\right) = \frac{L}{a_{\ang{n}j}}
+\green{jL} + \purple{\frac{L}{s_{\angl{n}j}}} &= L\left(j + \frac{j}{(1+j)^n - 1}\right) = L\left(\frac{j(1+j)^n - j + j}{(1+j)^n - 1}\right) \\
+&= L\left(\frac{j}{1 - v^n}\right) = \frac{L}{a_{\angl{n}j}}
 \end{align*}
 
 \begin{center}
@@ -704,11 +635,11 @@ $n$ & $iL$ & $L$ & $K$ & $jK s_{\ang{n-1}j}$ & $K s_{\ang{n}j}$ & $iL+K$ & $0$ \
 
 \textbf{When $i_A = i_S$ and $i_S > j$:}
 \begin{itemize}
-\item Periodic payment under amortization method: $\red{\dfrac{L}{a_{\ang{n}i_S}}}$
+\item Periodic payment under amortization method: $\red{\dfrac{L}{a_{\angl{n}i_S}}}$
 \item Periodic payment under SF method:
 \end{itemize}
 \[
-\green{i_S L} + \purple{\frac{L}{s_{\ang{n}j}}} > i_S L + \frac{L}{s_{\ang{n}i_S}} = \frac{L}{a_{\ang{n}i_S}}
+\green{i_S L} + \purple{\frac{L}{s_{\angl{n}j}}} > i_S L + \frac{L}{s_{\angl{n}i_S}} = \frac{L}{a_{\angl{n}i_S}}
 \]
 
 \vfill
@@ -723,11 +654,11 @@ $n$ & $iL$ & $L$ & $K$ & $jK s_{\ang{n-1}j}$ & $K s_{\ang{n}j}$ & $iL+K$ & $0$ \
 
 \textbf{When $i_A = i_S$ and $i_S < j$:}
 \begin{itemize}
-\item Periodic payment under amortization method: $\red{\dfrac{L}{a_{\ang{n}i_S}}}$
+\item Periodic payment under amortization method: $\red{\dfrac{L}{a_{\angl{n}i_S}}}$
 \item Periodic payment under SF method:
 \end{itemize}
 \[
-\green{i_S L} + \purple{\frac{L}{s_{\ang{n}j}}} < i_S L + \frac{L}{s_{\ang{n}i_S}} = \frac{L}{a_{\ang{n}i_S}}
+\green{i_S L} + \purple{\frac{L}{s_{\angl{n}j}}} < i_S L + \frac{L}{s_{\angl{n}i_S}} = \frac{L}{a_{\angl{n}i_S}}
 \]
 
 \vfill
@@ -778,7 +709,7 @@ Which one should the borrower choose?
 \medskip
 \item Let \red{$i'$} be the loan rate under the amortization method that makes the periodic cost of debt equal under the two methods:
 \[
-\green{i_S} L + \frac{L}{s_{\ang{n}\purple{j}}} = \frac{L}{a_{\ang{n}\red{i'}}}
+\green{i_S} L + \frac{L}{s_{\angl{n}\purple{j}}} = \frac{L}{a_{\angl{n}\red{i'}}}
 \]
 \item Approximate this loan rate as $\red{i' = i_S + \dfrac{i_S - j}{2}}$.
 \end{itemize}

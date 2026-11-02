@@ -1,61 +1,9 @@
 \documentclass{beamer}
-\mode<presentation> {\usetheme{default}}
-%\setbeamersize{text margin left=10mm,text margin right=10mm}
+\usepackage{risk201}
 
+\setchapter{10}
 
-\setbeamertemplate{footline}[frame number]
-
-\usepackage{amssymb}
-\usepackage{amsthm}
-\usepackage{amsmath}
-\usepackage{booktabs}
-\usepackage{needspace}
-\usepackage{comment}
-\usepackage{tikz}
-\usepackage{graphicx}
-\usepackage{bbm, dsfont}
-\usepackage{array}
-
-\usetikzlibrary{arrows,shapes,calc,positioning}
-
-\theoremstyle{plain}
-\newtheorem{thm}{Theorem}[section]
-\newtheorem{cor}[thm]{Corollary}
-\newtheorem{lem}[thm]{Lemma}
-\newtheorem{prop}[thm]{Proposition}
-%
-\theoremstyle{definition}
-\newtheorem{defn}{Definition}[section]
-\newtheorem{remk}{Definition}[section]
-\newtheorem{exam}{Example}[section]
-\newtheorem{prob}{Exercise}[section]
-\newtheorem{solu2}{Solution}[section]
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-
-\newcommand{\dif}{\operatorname{d}}
-\newcommand{\var}{\operatorname{Var}}
-\newcommand{\blue}[1]{\textcolor{blue}{#1}}
-\newcommand{\purple}[1]{\textcolor{purple}{#1}}
-
-% Chapter 10 has no numbered sections
-\renewcommand{\thesection}{10.\arabic{section}}
-
-\definecolor{accent}{RGB}{237,125,49}
-\definecolor{dgreen}{RGB}{84,130,53}
-\newcommand{\orange}[1]{\textcolor{accent}{#1}}
-\newcommand{\green}[1]{\textcolor{dgreen}{#1}}
-
-% Simple timeline: \timeline{length}{list of position/label pairs}
-\newcommand{\timeline}[2]{%
-  \begin{tikzpicture}
-    \draw (0,0) -- (#1,0);
-    \foreach \x/\lab in {#2} {
-      \draw (\x,0.12) -- (\x,-0.12);
-      \node[below] at (\x,-0.12) {\scriptsize $\lab$};
-    }
-  \end{tikzpicture}%
-}
-
+% Chapter-specific diagram shortcuts
 % Timeline 0, 1, 2 with row labels underneath:
 % \swaptimeline{comma-separated row labels}
 \newcommand{\swaptimeline}[1]{%
@@ -71,10 +19,8 @@
   \end{tikzpicture}%
 }
 
+
 \title{RISK 201: Interest Rate Swaps}
-\author{Himchan Jeong, FSA}
-\institute{Department of Statistics \& Actuarial Science \\Simon Fraser University}
-\date{}
 
 \begin{document}
 \maketitle
