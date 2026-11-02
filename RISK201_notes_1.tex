@@ -1,0 +1,909 @@
+\documentclass{beamer}
+\mode<presentation> {\usetheme{default}}
+%\setbeamersize{text margin left=10mm,text margin right=10mm}
+
+
+\setbeamertemplate{footline}[frame number]
+
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{needspace}
+\usepackage{comment}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{bbm, dsfont}
+
+\usetikzlibrary{arrows,shapes,calc,positioning}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+%
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{remk}{Definition}[section]
+\newtheorem{exam}{Example}[section]
+\newtheorem{prob}{Exercise}[section]
+\newtheorem{solu2}{Solution}[section]
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+
+\newcommand{\dif}{\operatorname{d}}
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\purple}[1]{\textcolor{purple}{#1}}
+
+% Sections of Chapter 1 are numbered 1.1, 1.2, ..., 1.7
+\renewcommand{\thesection}{1.\arabic{section}}
+
+% Simple timeline: \timeline{length}{list of position/label pairs}
+\newcommand{\timeline}[2]{%
+  \begin{tikzpicture}
+    \draw (0,0) -- (#1,0);
+    \foreach \x/\lab in {#2} {
+      \draw (\x,0.12) -- (\x,-0.12);
+      \node[below] at (\x,-0.12) {\scriptsize $\lab$};
+    }
+  \end{tikzpicture}%
+}
+%opening
+
+\title{RISK 201: Measurement of Interest}
+\author{Himchan Jeong, FSA}
+\institute{Department of Statistics \& Actuarial Science \\Simon Fraser University}
+\date{}
+
+\begin{document}
+\maketitle
+
+%======================================================================
+\section{Definitions}
+%======================================================================
+
+\begin{frame}{1.1 Definitions}
+
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{p{0.32\textwidth}p{0.58\textwidth}}
+\toprule
+\textbf{Principal} ($P$): & The amount of money (capital) we start with \\
+\textbf{Accumulated value} ($S$): & The amount of money at the end of a defined period of time, without adding/withdrawing any capital \\
+\textbf{Amount of interest} ($I$): & The difference between the accumulated value and the principal \\
+\bottomrule
+\end{tabular}
+
+\end{frame}
+
+\begin{frame}{Accumulation Function}
+
+Let $t$ measure time from the date of the original investment.
+
+\bigskip
+The unit of $t$ is called the \textbf{measurement period} (usually days, months or years). The default is one year.
+
+\bigskip
+\begin{defn}
+The \textbf{accumulation function}, $a(t)$, $t \ge 0$, gives the accumulated value at time $t$ of an original investment of 1 unit of principal.
+\end{defn}
+
+\end{frame}
+
+\begin{frame}{Accumulation Function, Examples}
+
+\begin{center}
+\begin{tikzpicture}
+  \foreach \x/\y in {0/0, 5/0, 0/-3.2, 5/-3.2} {
+    \draw[->] (\x,\y) -- (\x+4,\y) node[right] {\scriptsize $t$};
+    \draw[->] (\x,\y) -- (\x,\y+2.6) node[above] {\scriptsize $a(t)$};
+  }
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Accumulation Function, Properties}
+
+\begin{enumerate}
+\item $a(0) = 1$
+\bigskip
+\item $a(t)$ is usually increasing in time
+\bigskip
+\item We consider $a(t)$ to be continuous
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Example 1.1}
+
+You are given $a(t) = bt^2 + ct + d$. You are also told that $a(1) = 4.5$ and $a(2) = 9$. Find $a(5)$.
+
+\vfill
+\end{frame}
+
+\begin{frame}{Amount Function}
+
+\begin{defn}
+The \textbf{amount function}, $A(t)$, $t \ge 0$, gives the accumulated value at time $t$ of an original investment of $P$ units of principal.
+\end{defn}
+
+\end{frame}
+
+\begin{frame}{Amount Function, Properties}
+
+\begin{enumerate}
+\item $A(0) = P$
+\bigskip
+\item $A(t)$ is usually increasing in time
+\bigskip
+\item We consider $A(t)$ to be continuous
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Example 1.2}
+
+Use the same accumulation function as in Example 1.1. If \$200 is invested at time 0, what is the accumulated value at time 7?
+
+\vfill
+\end{frame}
+
+\begin{frame}{Interest Earned}
+
+The \textbf{amount of interest earned during the $n$\textsuperscript{th} period} is given by
+\[
+I_n = A(n) - A(n-1), \qquad n = 1, 2, \ldots
+\]
+
+\end{frame}
+
+\begin{frame}{Example 1.2, continued}
+
+How much interest is earned between times 5 and 7 on our initial investment of \$200?
+
+\vfill
+\end{frame}
+
+%======================================================================
+\section{Effective Rate of Interest}
+%======================================================================
+
+\begin{frame}{1.2 Effective Rate of Interest}
+
+\begin{defn}
+The \textbf{effective rate of interest} is a measure of interest denoted by $i$ and defined as the amount of money that 1 unit invested at the beginning of a period will earn during the period, where interest is paid at the \textbf{end} of the period.
+\end{defn}
+
+\[
+i = \frac{a(1) - a(0)}{a(0)} = a(1) - a(0) \quad \text{(why?)}
+\]
+
+\end{frame}
+
+\begin{frame}{Effective Rate of Interest, cont'd}
+
+The effective rate of interest earned in the $n$\textsuperscript{th} period:
+\[
+i_n = \frac{a(n) - a(n-1)}{a(n-1)}
+\]
+
+\end{frame}
+
+\begin{frame}{Example 1.2, continued}
+
+Calculate the effective rates of interest $i_1$, $i_2$ and $i_{10}$.
+
+\vfill
+\end{frame}
+
+%======================================================================
+\section{Simple Interest}
+%======================================================================
+
+\begin{frame}{1.3 Simple Interest}
+
+Simple interest refers to a specific way of accumulating interest:
+\[
+a(t) = 1 + rt
+\]
+where $r$ is the annual rate of simple interest and $t \ge 0$ is time expressed in years.
+
+\bigskip
+Simple interest is often used for short-term transactions (less than a year).
+
+\end{frame}
+
+\begin{frame}{Calculating $t$}
+
+The time period in question may be stated:
+\begin{itemize}
+\item In years (``a loan for half a year'')
+\vspace{2em}
+\item In months (``an investment for 5 months'')
+\vspace{2em}
+\item Using actual dates (``Mar 12 to Sep 25, 2022'')
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Calculating $t$, continued}
+
+Three different conventions when dates are given:
+\begin{itemize}
+\item Actual/actual (exact interest)
+\vspace{2em}
+\item Actual/360 (Banker's rule)
+\vspace{2em}
+\item 30/360 (ordinary interest)
+\[
+\text{numerator} = (D_2 - D_1) + 30(M_2 - M_1) + 360(Y_2 - Y_1)
+\]
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{$A(t)$ for simple interest}
+
+\[
+A(t) = P \cdot a(t) = P(1 + rt), \qquad t \ge 0
+\]
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.9]
+  \draw (0,0) -- (4,0) node[right] {\scriptsize $t$};
+  \draw (0,0) -- (0,3.4) node[above] {\scriptsize $A(t)$};
+  \draw[blue] (0,1) -- (3.6,2.8);
+  \node[left] at (0,1) {\scriptsize $P$};
+\end{tikzpicture}
+\end{column}
+\begin{column}{0.45\textwidth}
+\centering
+The amount of simple interest accumulated over a period of length $t$ is
+\[
+I = Prt
+\]
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Example 1.3}
+
+You invest \$500 at 7\% simple interest. What is the accumulated value of your investment after 30 days?
+
+\vspace{4em}
+What is it after 2 years?
+
+\vfill
+\end{frame}
+
+\begin{frame}{Effective rate under simple interest}
+
+With a constant rate of simple interest, $r$, the effective rate of interest during the $n$\textsuperscript{th} period is
+\[
+i_n = \frac{I_n}{A(n-1)}
+\]
+
+\vfill
+\end{frame}
+
+%======================================================================
+\section{Compound Interest}
+%======================================================================
+
+\begin{frame}{1.4 Compound Interest}
+
+Compound interest is another common way of accumulating interest:
+\[
+a(t) = (1+i)^t
+\]
+where $i$ is the annual rate of compound interest and $t$ is time.
+
+\bigskip
+The amount function is
+\[
+A(t) = P(1+i)^t
+\]
+
+\end{frame}
+
+\begin{frame}{Example 1.4}
+
+You invest \$500 at 7\% compound interest. What is the accumulated value of your investment after 3 months?
+
+\vspace{3em}
+After 2 years?
+
+\vspace{3em}
+Compare your answers to Example 1.3.
+
+\vfill
+\end{frame}
+
+\begin{frame}{Simple vs.\ compound interest}
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.9]
+  \draw (0,0) -- (4.2,0) node[right] {\scriptsize $t$};
+  \draw (0,0) -- (0,3.6) node[above] {\scriptsize $A(t)$};
+  \draw[blue] (0,1.2) -- (3.6,2.9);
+  \draw[densely dotted] (0,2.35) -- (2.45,2.35) -- (2.45,0);
+  \draw (2.45,0.08) -- (2.45,-0.08) node[below] {\scriptsize $1$};
+  \node[left] at (0,1.2) {\scriptsize $P$};
+  \node[left] at (0,2.35) {\scriptsize $P(1+r)$};
+\end{tikzpicture}
+\end{column}
+\begin{column}{0.48\textwidth}
+With simple interest:
+\begin{align*}
+A(t) &= P(1+rt) \\
+A(0) &= P \\
+A(1) &= P(1+r)
+\end{align*}
+With compound interest:
+\begin{align*}
+A(t) &= P(1+r)^t \\
+A(0) &= \\
+A(1) &=
+\end{align*}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Interest on interest}
+
+With compound interest, each interest payment is assumed to be automatically \textbf{reinvested}. There is then interest being earned not just on the principal but also on all previously accumulated interest.
+\begin{align*}
+a(1) &= 1 + i \\
+a(2) &= (1+i)^2 = 1 + i + i(1+i) \\
+&\ \ \vdots \\
+a(t) &= (1+i)^t = (1+i)^{t-1}(1+i) \\
+&= (1+i)^{t-1} + i \cdot (1+i)^{t-1}
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{Effective rate under compound interest}
+
+With a constant rate of compound interest, $i$, the effective rate of interest during the $n$\textsuperscript{th} period is
+\begin{align*}
+i_n &= \frac{A(n) - A(n-1)}{A(n-1)} \\[1ex]
+&= \frac{(1+i)^n}{(1+i)^{n-1}} - 1 \\[1ex]
+&= i
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{Special property of compound interest}
+
+The accumulation function for compound interest satisfies the property
+\[
+a(t+s) = a(t) \cdot a(s) \qquad \forall\, t \ge 0,\ s \ge 0
+\]
+
+\begin{center}
+\timeline{8}{0/0, 3/t, 7/t+s}
+\end{center}
+
+\vfill
+This is a useful property unique to compound interest.
+
+\end{frame}
+
+%======================================================================
+\section{Present Value}
+%======================================================================
+
+\begin{frame}{1.5 Present Value}
+
+The accumulation function connects the value of an investment today to its value at some future date.
+
+\begin{center}
+\timeline{6}{0/0, 5.5/t}
+\end{center}
+
+But what if we want to target a particular amount at a specific future date? How much should we set aside today?
+
+\end{frame}
+
+\begin{frame}{Definition of present value}
+
+\begin{defn}
+The \textbf{present value} (at time 0) of 1 due in $t$ years is the amount needed at time 0 which will accumulate to 1 by time $t$.
+\end{defn}
+
+\begin{center}
+\begin{tikzpicture}
+  \draw (0,0) -- (6,0);
+  \foreach \x/\lab in {0/0, 5.5/t} {
+    \draw (\x,0.12) -- (\x,-0.12);
+    \node[below] at (\x,-0.12) {\scriptsize $\lab$};
+  }
+  \node[above] at (0,0.12) {\scriptsize $PV = \dfrac{1}{a(t)}$};
+  \node[above] at (5.5,0.12) {\scriptsize $1$};
+\end{tikzpicture}
+\end{center}
+
+The present value (at time 0) of $k$ due in $t$ years is
+
+\vfill
+\end{frame}
+
+\begin{frame}{Example 1.5}
+
+(a) What is the present value of \$600 due in 5 years assuming \textbf{simple} interest at 10\% per year?
+
+\begin{center}
+\timeline{6}{0/0, 5.5/5}
+\end{center}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Example 1.5, continued}
+
+(b) What is the present value of \$600 due in 5 years assuming \textbf{compound} interest at 10\% per year?
+
+\begin{center}
+\timeline{6}{0/0, 5.5/5}
+\end{center}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Example 1.5, continued}
+
+(c) What is the present value of \$600 due in 5 years with accumulation function $a(t) = t^2 + 2t + 1$?
+
+\vfill
+\end{frame}
+
+\begin{frame}{Discounting}
+
+The process of finding the PV of a payment, or stream of payments, is called \textbf{discounting}.
+
+\bigskip
+Discounting with compound interest involves multiplying by a factor $\dfrac{1}{(1+i)^t}$.
+\[
+\text{Let } v = \frac{1}{1+i}.
+\]
+
+This is the one-period present value factor, also known as the \textbf{discount factor}.
+
+\end{frame}
+
+\begin{frame}{Properties}
+
+\begin{enumerate}
+\item As the interest rate increases, the present value
+\end{enumerate}
+
+\begin{center}
+\timeline{6}{0/0, 5.5/5}
+\end{center}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Properties, continued}
+
+Mathematically,
+\[
+\frac{d}{di} PV = \frac{d}{di} \frac{k}{(1+i)^t} = k \cdot \frac{d}{di}(1+i)^{-t}
+\]
+
+\vfill
+\end{frame}
+
+\begin{frame}{Properties, continued}
+
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item As the time horizon increases, the present value
+\end{enumerate}
+
+\begin{center}
+\timeline{7}{0/0, 5/5, 6.5/8}
+\end{center}
+
+\vfill
+\[
+\frac{d}{dt} PV = \frac{d}{dt} \frac{k}{(1+i)^t} = \frac{-k \ln(1+i)}{(1+i)^t}
+\]
+
+\end{frame}
+
+%======================================================================
+\section{Discount Rates}
+%======================================================================
+
+\begin{frame}{Key concepts from week 1}
+
+\begin{enumerate}
+\item Money has \textbf{time value}: $k$ today $\neq k$ any other day
+\bigskip
+\item The \textbf{present value} tells us how much a cash flow occurring in the future is worth today.
+\bigskip
+\item The \textbf{effective rate of interest} measures the amount of interest as a proportion of the value at the beginning of the period.
+\end{enumerate}
+
+\end{frame}
+
+% Borrow/pay cash-flow diagram: \cashflow{borrow at 0}{pay at 0}{pay at 1}
+\newcommand{\cashflow}[3]{%
+  \begin{tikzpicture}
+    \node[anchor=west] at (-2,0.5) {\scriptsize Borrow:};
+    \node[anchor=west] at (-2,-0.5) {\scriptsize Pay:};
+    \draw (0,0) -- (5,0);
+    \draw (0,0.12) -- (0,-0.12);
+    \draw (5,0.12) -- (5,-0.12);
+    \node at (0,0.5) {\scriptsize #1};
+    \node at (0,-0.5) {\scriptsize #2};
+    \node at (5,-0.5) {\scriptsize #3};
+  \end{tikzpicture}%
+}
+
+\begin{frame}{1.6 Discount rates}
+
+Interest is like rent: it is the fee the borrower pays for the opportunity to use someone else's money.
+
+\bigskip
+Suppose you want to borrow \$100 for a year. Bank A offers you a loan at 10\% effective rate of interest.
+
+\begin{center}
+\cashflow{100}{}{110}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Interest payable up front}
+
+Bank B offers you a loan with similar terms but it wants the \$10 interest to be paid up front.
+
+\begin{center}
+\cashflow{100}{10}{100}
+\end{center}
+
+\begin{itemize}
+\item \textbf{Face value}: the amount to be repaid
+\item \textbf{Proceeds}: the amount that the borrower receives
+\item \textbf{Bank discount}: the interest charged up front
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Effective rate of discount}
+
+\begin{defn}
+The \textbf{effective rate of discount} during the $n$\textsuperscript{th} period is
+\[
+d_n = \frac{A(n) - A(n-1)}{A(n)} = \frac{I_n}{A(n)}
+\]
+\end{defn}
+
+In the example above, the effective rate of discount in Bank B's offer is
+
+\vfill
+\end{frame}
+
+\begin{frame}{Comparing interest and discount}
+
+We can think of Bank B's offer as
+
+\begin{center}
+\cashflow{90}{}{100}
+\end{center}
+
+Effective rate of \textbf{interest} on this offer is
+\[
+i =
+\]
+
+\vfill
+\end{frame}
+
+\begin{frame}{Comparing interest and discount}
+
+Bank B wants your business and is willing to match Bank A's offer but needs the interest up front. What rate of discount would be equivalent to Bank A's offer (i.e., borrower indifferent between options)?
+
+\begin{center}
+\cashflow{}{}{}
+\end{center}
+
+Effective rate of discount:
+
+\vfill
+\end{frame}
+
+\begin{frame}{Equivalence of interest \& discount}
+
+An effective rate of interest of 10\% and an effective rate of discount of \blue{9.0909\%} are equivalent in the sense that
+\begin{itemize}
+\item they produce the same net cash flows
+\item the interest amounts are the same in present value terms
+\end{itemize}
+
+\begin{center}
+\timeline{5}{0/0, 5/1}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Equivalence of interest \& discount}
+
+Mathematically:
+\[
+i = \frac{I}{A(0)} \qquad\qquad d = \frac{I}{A(1)} = \frac{i \cdot A(0)}{A(0) + i \cdot A(0)}
+\]
+so
+\[
+\frac{1}{d} = \frac{A(0) + i \cdot A(0)}{i \cdot A(0)} = \frac{1+i}{i} = \frac{1}{iv}
+\]
+
+\end{frame}
+
+\begin{frame}{Simple discount}
+
+Simple discount describes a specific pattern of accumulation:
+\[
+a(t) = \frac{1}{1 - dt}, \qquad t \ge 0
+\]
+where $d$ is the annual rate of simple discount.
+
+\bigskip
+Present values are calculated using
+\[
+a(t)^{-1} = 1 - dt, \qquad t \ge 0
+\]
+
+\end{frame}
+
+\begin{frame}{Simple discount, example}
+
+\underline{Example:} A bank issues a simple discount note with face value \$4000 due in 3 months. The annual discount rate is 12\%. Find the bank interest and the proceeds.
+
+\vfill
+\end{frame}
+
+\begin{frame}{Compound discount}
+
+Compound discount is another pattern of accumulation:
+\[
+a(t) = \frac{1}{(1-d)^t}, \qquad t \ge 0
+\]
+where $d$ is the annual rate of compound discount.
+
+\bigskip
+Present values are calculated using
+\[
+a(t)^{-1} = (1-d)^t, \qquad t \ge 0
+\]
+
+Note: using compound discount, the effective rate of discount in each period is constant.
+
+\end{frame}
+
+\begin{frame}{Compound discount, example}
+
+\underline{Example:} A loan is issued with \$10,000 face value due in 3 years. If the loan is subject to a 12\% annual rate of compound discount, find the proceeds to the borrower.
+
+\vfill
+\end{frame}
+
+\begin{frame}{Summary}
+
+\begin{itemize}
+\item Simple and compound discount refer to specific forms of the accumulation function $a(t)$.
+\bigskip
+\item The effective rate of discount is another way of measuring or characterizing the rate at which interest accumulates.
+\end{itemize}
+
+\end{frame}
+
+%======================================================================
+\section{Nominal Rates}
+%======================================================================
+
+\begin{frame}{1.7 Nominal Rates}
+
+Recall the effective annual rate of interest, which is the \% change in the value of an investment from the beginning of the year to the end of the year.
+\[
+i = \frac{I}{A(0)}
+\]
+
+\underline{Example:} Suppose time is measured in quarters. Investment A is such that 100 grows to 105 by the end of the quarter. What is the effective \textbf{quarterly} rate of interest?
+
+\vfill
+\end{frame}
+
+\begin{frame}{Comparing rates}
+
+Which of the following two options is better for an investor?
+\begin{itemize}
+\item Effective annual rate of interest of 16\%, or
+\item Effective quarterly rate of interest of 4\%?
+\end{itemize}
+
+\bigskip
+Which of the following two options is better for an investor?
+\begin{itemize}
+\item Effective annual rate of interest of 16\%, or
+\item Effective quarterly rate of interest of 3.9\%?
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Different compounding periods}
+
+How do you compare?
+\begin{itemize}
+\item Pick some time period
+\item Find the accumulated value at the end of that period under both rates
+\item Compare accumulated values
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Equivalent measures of interest}
+
+Measures of interest are said to be \textbf{equivalent} if they produce the same accumulated value for a given amount invested for the same length of time.
+
+\bigskip
+\underline{Example:} What is the effective quarterly interest rate ($j$) that is equivalent to an effective annual rate of interest of 16\%?
+
+\vfill
+\end{frame}
+
+\begin{frame}{Nominal rate of interest}
+
+We could also express this pattern of accumulation as a \textbf{nominal annual rate of interest}, compounded quarterly:
+
+\vspace{3em}
+The measurement period is annual, and ``nominal'' refers to interest being compounded more often than once per measurement period.
+
+\end{frame}
+
+\begin{frame}{Nominal rate of interest}
+
+\begin{itemize}
+\item The nominal rate of interest payable $m$ times per period is denoted by \blue{$i^{(m)}$} where $m = 2, 3, 4, \ldots$
+\bigskip
+\item The rate that applies to each $m$\textsuperscript{th} of a period is \blue{$i^{(m)}/m$}.
+\bigskip
+\item The accumulated value after 1 year is \blue{$\left(1 + \frac{i^{(m)}}{m}\right)^m$}.
+\bigskip
+\item The accumulated value after $t$ years is \blue{$\left(1 + \frac{i^{(m)}}{m}\right)^{mt}$}.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Accumulation at nominal rate $i^{(m)}$}
+
+\begin{center}
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}
+  % positions: 0, 1/m, 2/m, (m-1)/m, 1
+  \def\xa{0} \def\xb{2.4} \def\xc{5.2} \def\xd{9.6} \def\xe{12.6}
+  \draw[densely dashed] (\xa,0) -- (6.9,0);
+  \node at (7.4,0) {$\cdots$};
+  \draw[densely dashed] (7.9,0) -- (\xe,0);
+  \foreach \x in {\xa,\xb,\xc,\xd,\xe} \draw (\x,0.2) -- (\x,-0.2);
+  \node[above] at (\xa,0.2) {\$1};
+  % row labels
+  \node[anchor=east] at (-0.8,-0.8) {\textbf{Time}};
+  \node[anchor=east] at (-0.8,-2.2) {\textbf{Interest:}};
+  \node[anchor=east] at (-0.8,-3.8) {\textbf{Balance:}};
+  % times
+  \node at (\xa,-0.8) {$0$};
+  \node at (\xb,-0.8) {$\frac{1}{m}$};
+  \node at (\xc,-0.8) {$\frac{2}{m}$};
+  \node at (\xd,-0.8) {$\frac{m-1}{m}$};
+  \node at (\xe,-0.8) {$1$};
+  % interest
+  \node at (\xb,-2.2) {$\dfrac{i^{(m)}}{m}$};
+  \node at (\xc,-2.2) {$\dfrac{i^{(m)}}{m}\left(1+\dfrac{i^{(m)}}{m}\right)$};
+  \node at (\xd,-2.2) {$\dfrac{i^{(m)}}{m}\left(1+\dfrac{i^{(m)}}{m}\right)^{m-2}$};
+  \node at (\xe+0.4,-2.2) {$\dfrac{i^{(m)}}{m}\left(1+\dfrac{i^{(m)}}{m}\right)^{m-1}$};
+  % balance
+  \node at (\xa,-3.8) {\textbf{\$1}};
+  \node at (\xb,-3.8) {$1+\dfrac{i^{(m)}}{m}$};
+  \node at (\xc,-3.8) {$\left(1+\dfrac{i^{(m)}}{m}\right)^{2}$};
+  \node at (\xd,-3.8) {$\left(1+\dfrac{i^{(m)}}{m}\right)^{m-1}$};
+  \node at (\xe+0.4,-3.8) {$\left(1+\dfrac{i^{(m)}}{m}\right)^{m}$};
+\end{tikzpicture}%
+}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Equivalence of nominal rates}
+
+A nominal annual rate of $i^{(m)}$ is equivalent to an effective annual rate of $i$ if
+\[
+\blue{1 + i = \left(1 + \frac{i^{(m)}}{m}\right)^m.}
+\]
+
+\begin{center}
+\begin{tabular}{cccccc}
+\toprule
+$m$ & 1 & 2 & 4 & 12 & 365 \\
+\midrule
+$i^{(m)}$ & 0.08000 & 0.07846 & 0.07771 & 0.07721 & 0.07697 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+As $m$ increases, $i^{(m)}$ decreases. We can prove that as $m \to \infty$, $i^{(m)}$ has a limit. We denote this limit by $\delta$.
+
+\end{frame}
+
+\begin{frame}{Nominal rate of discount}
+
+\begin{itemize}
+\item The nominal rate of discount payable $m$ times per period is denoted by \blue{$d^{(m)}$} where $m = 2, 3, 4, \ldots$
+\bigskip
+\item The rate that applies to each $m$\textsuperscript{th} of a period is \blue{$d^{(m)}/m$}.
+\bigskip
+\item The accumulated value after 1 year is \blue{$1 \Big/ \left(1 - \frac{d^{(m)}}{m}\right)^m$}.
+\bigskip
+\item The accumulated value after $t$ years is \blue{$1 \Big/ \left(1 - \frac{d^{(m)}}{m}\right)^{mt}$}.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Equivalence of nominal rates}
+
+A nominal annual rate of discount $d^{(m)}$ is equivalent to an effective annual rate of discount $d$ if
+\[
+\blue{1 - d = \left(1 - \frac{d^{(m)}}{m}\right)^m.}
+\]
+
+If $i^{(m)}$ and $d^{(m)}$ are \textcolor{red}{equivalent}, then
+\[
+\blue{\left(1 + \frac{i^{(m)}}{m}\right)^m = 1 \Big/ \left(1 - \frac{d^{(m)}}{m}\right)^m}
+\]
+
+As $m$ increases, $d^{(m)}$ increases. We can prove that as $m \to \infty$, $d^{(m)}$ also converges to $\delta$.
+
+\end{frame}
+
+\begin{frame}{Example}
+
+You want to invest \$100 for a period of 3 years. Bank A offers a nominal rate of interest of 12\% convertible quarterly and Bank B offers a nominal rate of discount of 10\% convertible semi-annually.
+
+\begin{enumerate}[a)]
+\item Where should you invest your \$100?
+\end{enumerate}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Example, continued}
+
+In fact, we could compare accumulated values at any common compounding points:
+\begin{itemize}
+\item After 2 years:
+\vspace{4em}
+\item After 6 months (2 quarters):
+\end{itemize}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Example, continued}
+
+\begin{enumerate}[a)]
+\setcounter{enumi}{1}
+\item What nominal rate of discount convertible twice a year is equivalent to Bank A's offer?
+\end{enumerate}
+
+\vfill
+\end{frame}
+
+\end{document}
