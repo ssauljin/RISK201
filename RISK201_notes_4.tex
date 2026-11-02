@@ -124,103 +124,6 @@ $\ddot{a}_{\angl{n}i}^{(m)}$ is PV of annuity that pays $1/m$ at the \textbf{beg
 \end{frame}
 
 %======================================================================
-\setcounter{section}{2}
-\section{Perpetuities}
-%======================================================================
-
-\begin{frame}{4.3 Perpetuities}
-
-A perpetuity is an annuity whose payments go on \textbf{forever}.
-
-\bigskip
-\textbf{Ordinary} simple perpetuity (perpetuity-immediate):
-
-\begin{center}
-\cfdiagram{8}{0/0, 1.2/1, 2.4/2, 3.6/3, 4.8/\ldots}{1.2/{$1$}, 2.4/{$1$}, 3.6/{$1$}, 4.8/{$\ldots$}}
-\end{center}
-
-\[
-PV = a_{\angl{\infty}i} = 1/i
-\]
-
-\end{frame}
-
-\begin{frame}{PV of ordinary perpetuity}
-
-Recall the sum of an infinite geometric series:
-\[
-S = a + ar + ar^2 + ar^3 + \cdots = \frac{a}{1-r}
-\]
-
-PV of ordinary perpetuity:
-\[
-a_{\angl{\infty}i} = 1/i
-\]
-
-Limiting case of an $n$-year annuity as $n \to \infty$:
-\[
-a_{\angl{\infty}i} = \lim_{n\to\infty} a_{\angl{n}i} = \lim_{n\to\infty} \frac{1-v^n}{i}
-\]
-
-\vfill
-\end{frame}
-
-\begin{frame}{Perpetuity due}
-
-\begin{center}
-\cfdiagram{8}{0/0, 1.2/1, 2.4/2, 3.6/3, 4.8/\ldots}{0/{$1$}, 1.2/{$1$}, 2.4/{$1$}, 3.6/{$1$}, 4.8/{$\ldots$}}
-\end{center}
-
-\[
-PV = \ddot{a}_{\angl{\infty}i} = 1 + v + v^2 + \cdots = 1 + \frac{1}{i} = 1/d
-\]
-
-\vfill
-\end{frame}
-
-\begin{frame}{Example 4.3}
-
-You want to establish an annual \$2000 scholarship for outstanding actuarial students. If the first scholarship payment is one year from now, how much should you set aside in an endowment fund earning 4\% effective?
-
-\bigskip
-\begin{center}
-\timeline{8}{0/0, 1.2/1, 2.4/2, 3.6/3, 4.8/\ldots}
-\end{center}
-
-\vfill
-\end{frame}
-
-\begin{frame}{Practical examples of perpetuities}
-
-\begin{columns}[T]
-\begin{column}{0.68\textwidth}
-\small
-\begin{itemize}
-\item Endowment funds
-  \begin{itemize}
-  \item Scholarships and bursaries
-  \item Institutional funding
-  \item Sovereign wealth funds
-  \end{itemize}
-\item `Consol' bonds (UK, US)
-  \begin{itemize}
-  \item Short for `consolidated annuities'
-  \item Borrowing by government, promise to pay fixed \% of initial principal each year (coupon) to investor, to be redeemed when government chooses
-  \item UK consol first issued in 1752, final redemption in 2015
-  \end{itemize}
-\item Preferred shares
-\item Rental income
-\end{itemize}
-\end{column}
-\begin{column}{0.3\textwidth}
-\includegraphics[width=\textwidth]{figures/ch4_consol_bond.png}
-\end{column}
-\end{columns}
-
-\end{frame}
-
-%======================================================================
-\setcounter{section}{1}
 \section{Mortgages}
 %======================================================================
 
@@ -410,12 +313,12 @@ You want to establish an annual \$2000 scholarship for outstanding actuarial stu
 \begin{itemize}
 \item As the qualifying rate increases, the monthly mortgage payment that is deemed affordable decreases $\rightarrow$ reduces ability to borrow
 \bigskip
-\item \underline{Example}: Consider a borrower with annual household income of \$100,000 and a down payment of \$50,000, wanting a mortgage with a 25-year amortization. Ignore taxes and heating costs for simplicity.
+\item \underline{Example 4.3}: Consider a borrower with annual household income of \$100,000 and a down payment of \$50,000, wanting a mortgage with a 25-year amortization. Ignore taxes and heating costs for simplicity.
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Stress test impact -- example}
+\begin{frame}{Example 4.3, continued}
 
 \begin{center}
 \footnotesize
@@ -540,7 +443,101 @@ Maximum home value & 623,643 & 598,934 \\
 \end{frame}
 
 %======================================================================
-\setcounter{section}{3}
+\section{Perpetuities}
+%======================================================================
+
+\begin{frame}{4.3 Perpetuities}
+
+A perpetuity is an annuity whose payments go on \textbf{forever}.
+
+\bigskip
+\textbf{Ordinary} simple perpetuity (perpetuity-immediate):
+
+\begin{center}
+\cfdiagram{8}{0/0, 1.2/1, 2.4/2, 3.6/3, 4.8/\ldots}{1.2/{$1$}, 2.4/{$1$}, 3.6/{$1$}, 4.8/{$\ldots$}}
+\end{center}
+
+\[
+PV = a_{\angl{\infty}i} = 1/i
+\]
+
+\end{frame}
+
+\begin{frame}{PV of ordinary perpetuity}
+
+Recall the sum of an infinite geometric series:
+\[
+S = a + ar + ar^2 + ar^3 + \cdots = \frac{a}{1-r}
+\]
+
+PV of ordinary perpetuity:
+\[
+a_{\angl{\infty}i} = 1/i
+\]
+
+Limiting case of an $n$-year annuity as $n \to \infty$:
+\[
+a_{\angl{\infty}i} = \lim_{n\to\infty} a_{\angl{n}i} = \lim_{n\to\infty} \frac{1-v^n}{i}
+\]
+
+\vfill
+\end{frame}
+
+\begin{frame}{Perpetuity due}
+
+\begin{center}
+\cfdiagram{8}{0/0, 1.2/1, 2.4/2, 3.6/3, 4.8/\ldots}{0/{$1$}, 1.2/{$1$}, 2.4/{$1$}, 3.6/{$1$}, 4.8/{$\ldots$}}
+\end{center}
+
+\[
+PV = \ddot{a}_{\angl{\infty}i} = 1 + v + v^2 + \cdots = 1 + \frac{1}{i} = 1/d
+\]
+
+\vfill
+\end{frame}
+
+\begin{frame}{Example 4.4}
+
+You want to establish an annual \$2000 scholarship for outstanding actuarial students. If the first scholarship payment is one year from now, how much should you set aside in an endowment fund earning 4\% effective?
+
+\bigskip
+\begin{center}
+\timeline{8}{0/0, 1.2/1, 2.4/2, 3.6/3, 4.8/\ldots}
+\end{center}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Practical examples of perpetuities}
+
+\begin{columns}[T]
+\begin{column}{0.68\textwidth}
+\small
+\begin{itemize}
+\item Endowment funds
+  \begin{itemize}
+  \item Scholarships and bursaries
+  \item Institutional funding
+  \item Sovereign wealth funds
+  \end{itemize}
+\item `Consol' bonds (UK, US)
+  \begin{itemize}
+  \item Short for `consolidated annuities'
+  \item Borrowing by government, promise to pay fixed \% of initial principal each year (coupon) to investor, to be redeemed when government chooses
+  \item UK consol first issued in 1752, final redemption in 2015
+  \end{itemize}
+\item Preferred shares
+\item Rental income
+\end{itemize}
+\end{column}
+\begin{column}{0.3\textwidth}
+\includegraphics[width=\textwidth]{figures/ch4_consol_bond.png}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+%======================================================================
 \section{Continuous Annuities}
 %======================================================================
 
@@ -639,7 +636,7 @@ The \textbf{accumulated value} of an annuity making payments \textbf{continuousl
 \vfill
 \end{frame}
 
-\begin{frame}{Example 1}
+\begin{frame}{Example 4.5}
 
 \begin{itemize}
 \item In 2021 and 2022 Daisy deposits \$12/day into an account.
@@ -655,7 +652,7 @@ The \textbf{accumulated value} of an annuity making payments \textbf{continuousl
 \vfill
 \end{frame}
 
-\begin{frame}{Example 1}
+\begin{frame}{Example 4.5, continued}
 
 Please see the Excel spreadsheet `daily, monthly, continuous annuities' file on Canvas.
 
@@ -678,7 +675,7 @@ I also recommend you try quarterly / bi-annually / usual annuities and compare t
 
 \end{frame}
 
-\begin{frame}{Example 2 (Brown \& Kopp 4.4.A7)}
+\begin{frame}{Example 4.6 (Brown \& Kopp 4.4.A7)}
 
 A level annuity pays \$100 per annum continuously for 20 years. If $\delta_t = \frac{1}{1+t}$, calculate the present value of this annuity.
 
@@ -731,7 +728,7 @@ The adjustments can happen:
 
 \end{frame}
 
-\begin{frame}{Example 1}
+\begin{frame}{Example 4.7}
 
 A pension plan will make annual payments starting one year from now and continuing for a total of 20 payments. The first payment will be \$24,000, with cost-of-living adjustments of 5\% per year applied to each payment thereafter. Find the present value of this pension arrangement today at an effective rate of 10\%.
 
@@ -743,7 +740,7 @@ A pension plan will make annual payments starting one year from now and continui
 \vfill
 \end{frame}
 
-\begin{frame}{Example 1, continued}
+\begin{frame}{Example 4.7, continued}
 
 \[
 \begin{aligned}
@@ -761,7 +758,7 @@ Q: What happens if $i = r$? PV $= nv$
 \vfill
 \end{frame}
 
-\begin{frame}{Example 2}
+\begin{frame}{Example 4.8}
 
 Suppose the pension plan makes monthly payments of \$2,000 starting one month from now, up to 20 years. The payments still only increase once a year, so that the first 12 are \$2,000, the next 12 are \$2,000(1.05), and so on. Find the present value of this pension arrangement with $i^{(12)} = 5.4\%$.
 
@@ -883,7 +880,7 @@ v\,(Ia)_{\angl{n}i} &= \phantom{1v + {}} 1v^2 + 2v^3 + 3v^4 + \cdots + (n-1)v^n 
 
 \end{frame}
 
-\begin{frame}{Example 3}
+\begin{frame}{Example 4.9}
 
 You bought a perpetuity-due with annual payments starting at \$50 and increasing by \$50 each year until the payment amount reaches \$1000. The payments stay at \$1000 thereafter. The effective annual interest rate is 7.5\%. Find the PV of this perpetuity.
 
@@ -917,7 +914,7 @@ Suppose payments are made continuously for $n$ years at rate $f(t)$ at time $t$,
 
 \end{frame}
 
-\begin{frame}{Example 4}
+\begin{frame}{Example 4.10}
 
 Deposits are being made into a fund continuously at an annual rate of \textcolor{orange}{$200e^t$} at time $t$.
 \begin{enumerate}[a)]
@@ -930,7 +927,7 @@ Deposits are being made into a fund continuously at an annual rate of \textcolor
 \vfill
 \end{frame}
 
-\begin{frame}{Example 4, continued}
+\begin{frame}{Example 4.10, continued}
 
 \begin{enumerate}[a)]
 \setcounter{enumi}{1}
