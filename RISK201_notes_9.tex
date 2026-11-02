@@ -1,0 +1,699 @@
+\documentclass{beamer}
+\mode<presentation> {\usetheme{default}}
+%\setbeamersize{text margin left=10mm,text margin right=10mm}
+
+
+\setbeamertemplate{footline}[frame number]
+
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{needspace}
+\usepackage{comment}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{bbm, dsfont}
+
+\usetikzlibrary{arrows,shapes,calc,positioning}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+%
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{remk}{Definition}[section]
+\newtheorem{exam}{Example}[section]
+\newtheorem{prob}{Exercise}[section]
+\newtheorem{solu2}{Solution}[section]
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+
+\newcommand{\dif}{\operatorname{d}}
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\purple}[1]{\textcolor{purple}{#1}}
+\newcommand{\green}[1]{\textcolor{dgreen}{#1}}
+\newcommand{\orange}[1]{\textcolor{dorange}{#1}}
+\definecolor{dgreen}{RGB}{84,130,53}
+\definecolor{dorange}{RGB}{237,125,49}
+
+% Simple timeline: \timeline[ellipsis positions]{length}{list of position/label pairs}
+\newcommand{\timeline}[3][]{%
+  \begin{tikzpicture}
+    \draw (0,0) -- (#2,0);
+    \foreach \x/\lab in {#3} {
+      \draw (\x,0.12) -- (\x,-0.12);
+      \node[below] at (\x,-0.12) {\scriptsize $\lab$};
+    }
+    \foreach \x in {#1} {
+      \node[below] at (\x,-0.12) {\scriptsize $\ldots$};
+    }
+  \end{tikzpicture}%
+}
+
+% Cash-flow table: timeline with coloured row labels underneath
+% \cfrows{length}{position/label pairs}{colour/row-label pairs}
+\newcommand{\cfrows}[3]{%
+  \begin{tikzpicture}
+    \draw (0,0) -- (#1,0);
+    \foreach \x/\lab in {#2} {
+      \draw (\x,0.12) -- (\x,-0.12);
+      \node[below] at (\x,-0.12) {\scriptsize $\lab$};
+    }
+    \foreach \c/\rlab [count=\k] in {#3} {
+      \node[anchor=west, text=\c] at (-3,-0.25-0.6*\k) {\small \rlab};
+    }
+  \end{tikzpicture}%
+}
+
+% Sections of Chapter 9 are numbered 9.1, 9.2, 9.3, 9.4
+\renewcommand{\thesection}{9.\arabic{section}}
+
+% Decreasing, convex price curve with tangent line (duration / convexity)
+\newcommand{\pricecurve}[1]{%
+  \begin{tikzpicture}[scale=#1]
+    \draw[->, thick] (0,0) -- (6,0);
+    \draw[->, thick] (0,0) -- (0,3.6);
+    \node at (-0.4,3.0) {\large P};
+    \draw[thick, domain=0:5, samples=60] plot (\x, {0.55+2.7*exp(-0.9*\x)});
+    % tangent at x0 = 1.2
+    \draw[thick] (0.05,{1.474+0.832*1.15}) -- (2.6,{1.474-0.832*1.4});
+    \draw[thick, dashed] (0,1.474) -- (1.2,1.474);
+    \draw[thick, dashed] (0,1.0) -- (2.0,1.0);
+    \draw[thick] (1.2,0.2) -- (1.2,-0.2);
+    \draw[thick] (2.0,0.2) -- (2.0,-0.2);
+  \end{tikzpicture}%
+}
+%opening
+
+\title{RISK 201: Asset-Liability Management}
+\author{Himchan Jeong, FSA}
+\institute{Department of Statistics \& Actuarial Science \\Simon Fraser University}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{frame}{Assets and liabilities}
+
+\begin{itemize}
+\item Insurance company \textbf{liabilities} consist of future cash flows promised to policyholders (e.g., annuity or pension payments, payouts on settlements after an injury, etc.).
+\medskip
+\item These liabilities must be backed by \textbf{assets}.
+\medskip
+\item The best assets to back a liability stream are ones that produce cash flows with the \green{same timing} and in the \green{same amount} as the liabilities. This is called \purple{exact cash flow matching} or \purple{dedication}.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Exact cash flow matching}
+
+\begin{itemize}
+\item Creating a dedicated portfolio \green{using zero-coupon bonds} is easy $\rightarrow$ buy bonds to match CFs one by one
+\medskip
+\item When \purple{using bonds with coupons}:
+\begin{enumerate}
+\item Consider the final liability cash flow first.
+\item Find the amount of the asset needed to match the last liability cash flow.
+\item Determine the liability cash flows that are left over after the first matching asset is chosen.
+\item Consider the longest \purple{remaining} cash flow; repeat steps 2--4 until all liability cash flows are matched.
+\end{enumerate}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Example 9.1}
+
+A company has an obligation to pay \$10,000 at the end of each year for 3 years. Spot rates are 4\%, 5\%, and 5.8\% for terms of 1, 2 and 3 years, respectively.
+\begin{enumerate}[a)]
+\item Construct a dedicated portfolio to match the cash flows using 1-, 2- and 3-year zero coupon bonds.
+\end{enumerate}
+
+\begin{center}
+\cfrows{6.6}{0/0, 2.2/1, 4.4/2, 6.6/3}{dgreen/1-year zero:, purple/2-year zero:, red/3-year zero:}
+\end{center}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Example 9.1, continued}
+
+\begin{enumerate}[a)]
+\setcounter{enumi}{1}
+\item Construct a dedicated portfolio using the following:
+\begin{itemize}
+\item Bond 1: 3-year bond with 5\% annual coupons
+\item Bond 2: 2-year bond with 2\% annual coupons
+\item Bond 3: 1-year zero-coupon bond
+\end{itemize}
+\end{enumerate}
+
+\begin{center}
+\cfrows{6.6}{0/0, 2.2/1, 4.4/2, 6.6/3}{dgreen/3-year bond:, purple/2-year bond:, red/1-year zero:}
+\end{center}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Interest rate sensitivity}
+
+\begin{itemize}
+\item Creating dedicated portfolios is not always possible; assets and liabilities might not be perfectly matched.
+\medskip
+\item Even if we pick assets whose PV matches the PV of the liabilities, the PVs might drift apart when interest rates change and
+\begin{itemize}
+\item the value of fixed-income assets, like bonds, changes
+\item the (market-consistent) value of the liabilities changes
+\end{itemize}
+\medskip
+\item \underline{Goal}: choose assets so that the PV of the assets moves in unison with the PV of the liabilities \\
+$\rightarrow$ protect \purple{surplus} from changes in interest rates
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Surplus}
+
+\begin{itemize}
+\item Define the \purple{surplus}, \purple{$S(i)$}, as the PV of assets minus the PV of liabilities, all valued at rate $i$:
+\[
+S(i) = \sum_{t=0}^{n} \frac{A_t}{(1+i)^t} - \sum_{t=0}^{n} \frac{L_t}{(1+i)^t}
+\]
+\item Select a portfolio so that $S(i) > 0$ under certain conditions. This is called \green{immunization}.
+\medskip
+\item To do so, we need to understand how the PV of cash flows change in response to changes in interest rates.
+\end{itemize}
+
+\end{frame}
+
+%======================================================================
+\section{Duration}
+%======================================================================
+
+\begin{frame}{9.1 Duration}
+
+\begin{itemize}
+\item Given annual cash flows $C_t$ and continuously compounded yield $\delta$, the price at time 0 is
+\[
+P(\delta) = \sum_{t=0}^{n} C_t\, e^{-\delta t}
+\]
+\end{itemize}
+
+\begin{columns}[c]
+\begin{column}{0.35\textwidth}
+\begin{itemize}
+\item Price curve is usually decreasing and convex.
+\end{itemize}
+\end{column}
+\begin{column}{0.6\textwidth}
+\centering
+\pricecurve{0.85}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Approximating the price change}
+
+\begin{itemize}
+\item The price change resulting from a change in the continuously compounded yield is
+\[
+P(\delta + \Delta\delta) = P(\delta) + (\Delta\delta) P'(\delta) + \frac{(\Delta\delta)^2 P''(\delta)}{2!} + \cdots
+\]
+\item A first-order approximation gives
+\[
+P(\delta + \Delta\delta) \approx P(\delta) + (\Delta\delta) P'(\delta)
+\]
+\item Graphically, this is a \purple{linear approximation}, based on the current price, $P(\delta)$, and the \purple{tangent} to the price curve at $\delta$.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Percentage change in price}
+
+\begin{itemize}
+\item For bonds, we are often interested in the \purple{percentage change in the price} in response to a change in the (continuously compounded) yield $\delta$:
+\[
+\purple{\%\Delta P(\delta)} = \frac{\Delta P(\delta)}{P(\delta)} = \frac{P(\delta + \Delta\delta) - P(\delta)}{P(\delta)} = (\Delta\delta)\, \green{\frac{P'(\delta)}{P(\delta)}}
+\]
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Duration}
+
+\green{(Macaulay) duration} is the \underline{negative} of the \underline{derivative} of the price function with respect to the continuously compounded yield, \underline{divided} by the price:
+\[
+\green{\bar{d}} = -\frac{\frac{d}{d\delta} P(\delta)}{P(\delta)}
+\]
+
+If we know the cash flows' duration, we can easily approximate the \% change in price from a change in $\delta$:
+\[
+\purple{\%\Delta P(\delta)} \approx (\Delta\delta)\, \frac{P'(\delta)}{P(\delta)} = -\green{\bar{d}}\,(\Delta\delta)
+\]
+
+\end{frame}
+
+\begin{frame}{Measuring the change in yield}
+
+\begin{itemize}
+\item The change in the yield is measured in \textcolor{red}{absolute} terms. We often express this in basis points: \\
+1 basis point (bp) = 0.01\% \quad (100 bps = 1\%)
+\medskip
+\item When we say a rate is $x$ bps higher/lower than some other rate, we always mean this \textcolor{red}{additively}.
+\medskip
+\item \underline{Example 9.2}: Suppose the 30-year continuously compounded yield observed in the market on Apr 1 is 10\%. Determine the yield on April 15 if you are told it is 5 bps higher than the rate on April 1.
+\end{itemize}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Interpreting (Macaulay) duration}
+
+\[
+P(\delta) = \sum_{t=0}^{n} C_t\, e^{-\delta t} \;\Rightarrow\; \frac{d}{d\delta} P(\delta) = \sum_{t=0}^{n} -t \cdot C_t\, e^{-\delta t}
+\]
+\[
+\bar{d} = \frac{\sum_{t=0}^{n} t \cdot C_t\, e^{-\delta t}}{\sum_{t=0}^{n} C_t\, e^{-\delta t}}
+= \sum_{t=0}^{n} t \cdot \left(\frac{C_t\, e^{-\delta t}}{\sum_{t=0}^{n} C_t\, e^{-\delta t}}\right)
+= \sum_{t=0}^{n} t \cdot \frac{PV_t}{PV_{all}}
+\]
+
+\medskip
+Macaulay duration is the \purple{weighted average of the times that cash flows occur}, where the weights are the relative contributions of each cash flow to the price.
+
+\end{frame}
+
+\begin{frame}{Observations}
+
+\begin{enumerate}
+\item The (Macaulay) duration of an $n$-year zero-coupon bond is $n$.
+\medskip
+\item A bond with a higher coupon rate has a shorter Macaulay duration because the higher coupons mean more weight is placed on earlier payments and less weight on late payments.
+\medskip
+\item A bond with a higher yield has a shorter Macaulay duration because the relative contribution of the later cash flows to the price is smaller when the yield is higher, so these cash flows have a smaller weight.
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Example 9.3}
+
+A 4-year bond has 6\% annual coupons and is priced at par.
+\begin{enumerate}[a)]
+\item Find the duration of this bond.
+\end{enumerate}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{cccc}
+\toprule
+$t$ & $C_t$ & $C_t e^{-\delta t}$ & $t \cdot C_t e^{-\delta t}$ \\
+\midrule
+1 & $0.06F$ & $0.06F/(1.06)$ & $1 \cdot 0.06F/(1.06)$ \\
+2 & $0.06F$ & $0.06F/(1.06)^2$ & $2 \cdot 0.06F/(1.06)^2$ \\
+3 & $0.06F$ & $0.06F/(1.06)^3$ & $3 \cdot 0.06F/(1.06)^3$ \\
+4 & $1.06F$ & $1.06F/(1.06)^4$ & $4 \cdot 1.06F/(1.06)^4$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Example 9.3, continued}
+
+\begin{enumerate}[a)]
+\setcounter{enumi}{1}
+\item Approximate the percentage change in price resulting from a 10 bps increase in the continuously compounded yield.
+\end{enumerate}
+
+\vfill
+\end{frame}
+
+%======================================================================
+\section{Modified duration (volatility)}
+%======================================================================
+
+\begin{frame}{9.2 Modified duration (volatility)}
+
+\begin{itemize}
+\item Yield is usually expressed as an effective rate of interest per period, $i$, not a cont.\ comp.\ rate $\delta$.
+\medskip
+\item We are normally interested in knowing/predicting the percentage change in price on account of a change in the yield $i$ (not $\delta$).
+\medskip
+\item \orange{Modified duration} (aka \orange{volatility}) is defined as the negative derivative of the price function with respect to the \orange{effective yield}, divided by the price:
+\[
+\orange{\bar{v}} = -\frac{\frac{d}{d\orange{i}} P(\orange{i})}{P(\orange{i})}
+\]
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Connection between $\bar{d}$ and $\bar{v}$}
+
+\begin{itemize}
+\item With annual effective rate $i$:
+\[
+P(i) = \sum_{t=0}^{n} C_t\,(1+i)^{-t} \;\Rightarrow\; \frac{d}{di} P(i) = \sum_{t=0}^{n} -t \cdot C_t\,(1+i)^{-t-1}
+\]
+\[
+\orange{\bar{v}} = \frac{\sum_{t=0}^{n} t \cdot C_t\,(1+i)^{-t-1}}{\sum_{t=0}^{n} C_t\,(1+i)^{-t}} = \frac{\green{\bar{d}}}{1+i}
+\]
+\item When $i$ is a semi-annual rate: $\bar{v} = \dfrac{\bar{d}/2}{1+i}$
+\medskip
+\item When $i$ is an $m$-thly rate: $\bar{v} = \dfrac{\bar{d}/m}{1+i}$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Approximating the change in price}
+
+If we know the cash flows' \orange{volatility}, we can easily approximate the change in price due to a change in the effective yield, $i$:
+\[
+\purple{\%\Delta P(i)} \approx (\Delta i)\, \frac{\frac{d}{di} P(i)}{P(i)} = -\orange{\bar{v}}\,(\Delta i)
+\]
+\[
+\purple{P(i + \Delta i)} \approx P(i) \cdot \left[1 - \orange{\bar{v}}\,(\Delta i)\right]
+\]
+
+\end{frame}
+
+\begin{frame}{Example 9.4}
+
+Consider the same bond as in Example 9.3: a 4-year bond with 6\% annual coupons priced at par.
+\begin{enumerate}[a)]
+\item Find the modified duration (volatility) of this bond.
+\vspace{6em}
+\item What is the approximate percentage change in the price of this bond in response to a 75 bps increase in the effective yield?
+\end{enumerate}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Example 9.4, continued}
+
+\begin{enumerate}[a)]
+\setcounter{enumi}{2}
+\item What is the \underline{exact} percentage change in the price of this bond in response to a 75 bps increase in the effective yield?
+
+\vspace{8em}
+How good was the approximation in part (b)?
+\end{enumerate}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Portfolio duration}
+
+\begin{itemize}
+\item Suppose a portfolio consists of $n$ assets, with $n$ separate series of annual cash flows. Using an effective annual interest rate of $i$, asset $k$ has price $P_k(i)$ and duration $D_k$.
+\medskip
+\item The total price of the portfolio is $P(i) = \sum_{k=1}^{n} P_k(i)$ and the duration of the portfolio is
+\end{itemize}
+\[
+D = -\frac{P'(i)}{P(i)} = -\frac{\sum_{k=1}^{n} P_k'(i)}{P(i)} = -\sum_{k=1}^{n} \frac{P_k'(i)}{P_k(i)} \frac{P_k(i)}{P(i)} = \sum_{k=1}^{n} D_k \frac{P_k(i)}{P(i)}
+\]
+
+\end{frame}
+
+%======================================================================
+\section{Convexity}
+%======================================================================
+
+\begin{frame}{9.3 Convexity}
+
+\begin{itemize}
+\item Modified duration works well to estimate the price change for small changes in $i$ ($\sim$less than 50 bps).
+\medskip
+\item For larger changes in yield, we need to take into account the \textcolor{red}{convexity} of the price function.
+\end{itemize}
+
+\begin{center}
+\pricecurve{0.65}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Second-order approximation}
+
+\begin{itemize}
+\item The price change resulting from a change in the annual effective yield is
+\[
+P(i + \Delta i) = P(i) + (\Delta i) P'(i) + \frac{(\Delta i)^2 P''(i)}{2!} + \cdots
+\]
+\item A second-order approximation gives
+\[
+P(i + \Delta i) \approx P(i) \left[1 - (\Delta i)\bar{v} + \frac{1}{2}(\Delta i)^2 \frac{P''(i)}{P(i)}\right]
+\]
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Convexity}
+
+Define the \textcolor{red}{convexity}, \textcolor{red}{$\bar{c}$}, of a set of cash flows as the \textcolor{red}{second derivative} of the price function with respect to the effective yield, divided by the price
+\begin{align*}
+P(i) = \sum_{t=0}^{n} C_t\,(1+i)^{-t} \;\Rightarrow\; \frac{d}{di} P(i) &= \sum_{t=0}^{n} -t \cdot C_t\,(1+i)^{-t-1} \\
+\frac{d^2}{di^2} P(i) &= \sum_{t=0}^{n} t(t+1) \cdot C_t\,(1+i)^{-t-2} \\
+\textcolor{red}{\bar{c}} = \frac{P''(i)}{P(i)} &= \frac{\sum_{t=0}^{n} t(t+1) \cdot C_t\,(1+i)^{-t}}{(1+i)^2 P(i)}
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{Example 9.5}
+
+Consider the same bond as in Example 9.4: a 4-year bond with 6\% annual coupons, priced at par.
+\begin{enumerate}[a)]
+\item Find the convexity of this bond.
+\end{enumerate}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{ccc}
+\toprule
+$t$ & $C_t$ & $t(t+1) \cdot C_t (1+i)^{-(t+2)}$ \\
+\midrule
+1 & $0.06F$ & $1(2) \cdot 0.06F/(1.06)^3$ \\
+2 & $0.06F$ & $2(3) \cdot 0.06F/(1.06)^4$ \\
+3 & $0.06F$ & $3(4) \cdot 0.06F/(1.06)^5$ \\
+4 & $1.06F$ & $4(5) \cdot 1.06F/(1.06)^6$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Example 9.5, continued}
+
+\begin{enumerate}[a)]
+\setcounter{enumi}{1}
+\item What is the approximate percentage change in the price of this bond in response to a 75 bps increase in the effective yield, using convexity?
+
+\vspace{8em}
+How good is this approximation?
+\end{enumerate}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Portfolio convexity}
+
+The convexity of a portfolio is the \textcolor{red}{weighted average of the convexity of each item} in the portfolio, with the weight being the price of the item in proportion to the price of the entire portfolio:
+\[
+C = \sum_{k=1}^{n} \bar{c}_k \frac{P_k(i)}{P(i)}
+\]
+
+\end{frame}
+
+%======================================================================
+\section{Immunization}
+%======================================================================
+
+\begin{frame}{9.4 Immunization}
+
+\begin{itemize}
+\item Suppose we have a series of liability cashflows and we are trying to construct an asset portfolio so that the surplus (PV of assets $-$ PV of liabilities) does not become negative when interest rates change
+\medskip
+\item Two choices:
+\begin{enumerate}
+\item \purple{Redington immunization}
+\item \green{Full immunization}
+\end{enumerate}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Redington immunization}
+
+\begin{itemize}
+\item Three conditions:
+\begin{enumerate}
+\item $PV_A(i) \ge PV_L(i)$
+\item $\bar{d}_A(i) = \bar{d}_L(i)$
+\item $\bar{c}_A(i) > \bar{c}_L(i)$
+\end{enumerate}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Redington immunization, cont'd}
+
+\begin{itemize}
+\item Ensures that $PV_A(i) \ge PV_L(i)$ for any \purple{small shift} in the yield rate
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+  \draw[->, thick] (0,0) -- (7,0) node[right] {yield};
+  \draw[->, thick] (0,0) -- (0,3.6) node[above left] {Price};
+  % PV_L: black, PV_A: red dashed, tangent at x = 1.5
+  \draw[thick, domain=0.6:4.6, samples=60] plot (\x, {0.6 + 1.5/\x});
+  \draw[thick, red, dashed, domain=0.85:4.1, samples=60]
+    plot (\x, {0.6 + 1.5/\x + 0.3*(\x-1.5)*(\x-1.5)/(1+0.8*(\x-1.5)*(\x-1.5))});
+  \draw[densely dashed, gray] (1.5,0) -- (1.5,1.6);
+  \node[below] at (1.5,-0.1) {$i$};
+  \node[red, right] at (4.2,1.55) {$PV_A$};
+  \node[right] at (4.6,0.85) {$PV_L$};
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Assumptions (Redington imm'n)}
+
+\begin{itemize}
+\item Flat yield curve
+\medskip
+\item Parallel shifts in the yield curve (yields change by the same amount for all maturities)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Example 9.6}
+
+An insurance company has committed to making a payment of \$100,000 in 10 years.
+
+\medskip
+In order to fund its liability, the company has invested \$27,919.74 in a 5-year zero-coupon bond and \$27,919.74 in a 15-year zero-coupon bond.
+
+\medskip
+The annual effective yield is 6\%.
+
+\medskip
+Determine whether the company's position is immunized.
+
+\end{frame}
+
+\begin{frame}{Example 9.6, continued}
+
+\begin{center}
+\begin{tikzpicture}
+  \node[anchor=west] at (-3,0.6) {\small Liability CF:};
+  \draw (0,0) -- (7.5,0);
+  \foreach \x/\lab in {0/0, 2.5/5, 5/10, 7.5/15} {
+    \draw (\x,0.12) -- (\x,-0.12);
+    \node[below] at (\x,-0.12) {\scriptsize $\lab$};
+  }
+  \node[anchor=west] at (-3,-1.0) {\small Asset CF:};
+\end{tikzpicture}
+\end{center}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Full immunization}
+
+\begin{itemize}
+\item A portfolio is \green{fully immunized at $i$} if
+\[
+S(i + \varepsilon) \ge 0 \text{ for certain } \varepsilon > 0
+\]
+\item Assuming a flat yield curve and parallel shifts in yields, a \orange{single cash flow} is \green{fully immunized} if
+\begin{enumerate}
+\item $PV_A(i) = PV_L(i)$
+\item $\bar{d}_A(i) = \bar{d}_L(i)$
+\item Asset cash flows occur both before and after the liability cash flow
+\end{enumerate}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Full immunization, continued}
+
+\begin{center}
+\begin{tikzpicture}
+  \node[anchor=west] at (-3,0) {Cash flows:};
+  \draw (0,0) -- (7,0);
+  \foreach \x/\lab/\cf in {0/0/, 2.5/t-q/A_1, 4.5/t/L, 6.5/t+q/A_2} {
+    \draw (\x,0.12) -- (\x,-0.12);
+    \node[below] at (\x,-0.12) {$\lab$};
+    \node[above] at (\x,0.15) {$\cf$};
+  }
+\end{tikzpicture}
+\end{center}
+
+where $PV_{A_1}(i) = PV_{A_2}(i)$.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lcc}
+\toprule
+ & \textbf{Liability} & \textbf{Asset portfolio} \\
+\midrule
+Duration & $t$ & $t$ \\
+Convexity & $t(t+1)$ & $> t(t+1)$ \textcolor{red}{(why?)} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Full immunization, continued}
+
+\begin{itemize}
+\item To fully immunize a \orange{series of liability cash flows}, choose assets to \green{fully immunize each liability} cash flow separately.
+\medskip
+\item Some practical issues:
+\begin{itemize}
+\item Yield curves are usually not flat
+\item Changes in yield curve are not parallel
+\item Asset cash flows contain risk
+\item Uncertainty in liability cash flows
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Example 9.7}
+
+Liability payments of 100 each are due to be paid in 2, 4 and 6 years from now. Asset cash flow consists of $A_1$ in 1 year and $A_5$ in 5 years. The yield for all payments is 10\%.
+
+\medskip
+An attempt is made to have the asset cash flow immunize the liability cash flow by matching present value and duration.
+
+\end{frame}
+
+\begin{frame}{Example 9.7, continued}
+
+\begin{enumerate}[a)]
+\item Find $A_1$ and $A_5$.
+\end{enumerate}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Example 9.7, continued}
+
+\begin{enumerate}[a)]
+\setcounter{enumi}{1}
+\item Determine whether the conditions for Redington immunization are satisfied.
+\end{enumerate}
+
+\vfill
+\end{frame}
+
+\end{document}
