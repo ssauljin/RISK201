@@ -1,0 +1,586 @@
+\documentclass{beamer}
+\mode<presentation> {\usetheme{default}}
+%\setbeamersize{text margin left=10mm,text margin right=10mm}
+
+
+\setbeamertemplate{footline}[frame number]
+
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{needspace}
+\usepackage{comment}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{bbm, dsfont}
+\usepackage{array}
+
+\usetikzlibrary{arrows,shapes,calc,positioning}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+%
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{remk}{Definition}[section]
+\newtheorem{exam}{Example}[section]
+\newtheorem{prob}{Exercise}[section]
+\newtheorem{solu2}{Solution}[section]
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+
+\newcommand{\dif}{\operatorname{d}}
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\purple}[1]{\textcolor{purple}{#1}}
+
+\usepackage{actuarialangle}
+
+% Sections of Chapter 3 are numbered 3.1, 3.2, ..., 3.6
+\renewcommand{\thesection}{3.\arabic{section}}
+
+\definecolor{accent}{RGB}{237,125,49}
+\definecolor{dgreen}{RGB}{84,130,53}
+\newcommand{\orange}[1]{\textcolor{accent}{#1}}
+\newcommand{\green}[1]{\textcolor{dgreen}{#1}}
+
+% Cash-flow timeline: \cftimeline{length}{list of position/time label/amount}{extra tikz}
+\newcommand{\cftimeline}[3]{%
+  \begin{tikzpicture}
+    \draw (0,0) -- (#1,0);
+    \foreach \x/\lab/\amt in {#2} {
+      \draw (\x,0.12) -- (\x,-0.12);
+      \node[below] at (\x,-0.12) {\small $\lab$};
+      \node[above] at (\x,0.12) {\small \amt};
+    }
+    #3
+  \end{tikzpicture}%
+}
+
+% Ordinary annuity (payments of 1 at times 1, ..., n)
+\newcommand{\annimm}{%
+  \cftimeline{7}{0/0/{}, 1/1/1, 2/2/1, 4/n-2/1, 5/n-1/1, 6/n/1}%
+    {\node at (3,-0.4) {\small $\ldots$}; \node at (3,0.4) {\small $\ldots$};}%
+}
+% Annuity due (payments of 1 at times 0, ..., n-1)
+\newcommand{\anndue}{%
+  \cftimeline{7}{0/0/1, 1/1/1, 2/2/1, 4/n-2/1, 5/n-1/1, 6/n/{}}%
+    {\node at (3,-0.4) {\small $\ldots$}; \node at (3,0.4) {\small $\ldots$};}%
+}
+
+\title{RISK 201: Simple Annuities}
+\author{Himchan Jeong, FSA}
+\institute{Department of Statistics \& Actuarial Science \\Simon Fraser University}
+\date{}
+
+\begin{document}
+\maketitle
+
+%======================================================================
+\section{Definitions}
+%======================================================================
+
+\begin{frame}{3.1 Definitions}
+
+\begin{itemize}
+\item An \textbf{annuity} is a series of payments made at regular intervals of time.
+\medskip
+\item The \textbf{payment period} is the interval between annuity payments.
+\medskip
+\item An \textbf{annuity-certain} is an annuity where the payments are sure to be made for a fixed period of time (the \textbf{term} of the annuity).
+\medskip
+\item A \textbf{contingent annuity} is an annuity where the payments depend on one or more contingent events.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Types of annuities}
+
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{@{}p{0.3\textwidth}p{0.62\textwidth}@{}}
+\toprule
+Ordinary annuity & Payments made at the \textbf{end} of each payment period \\
+Annuity due & Payments made at \textbf{beginning} of each payment period \\
+Deferred annuity & First payment at a \textbf{later} date \\
+Simple annuity & Payment interval and compounding period are the same (Ch 3) \\
+General annuity & Payment interval and compounding period are different (Ch 4) \\
+\bottomrule
+\end{tabular}
+
+\end{frame}
+
+%======================================================================
+\section{AV of an ordinary annuity}
+%======================================================================
+
+\begin{frame}{3.2 AV of an ordinary annuity}
+
+When all payments are 1 and the effective rate of interest is $i$, the accumulated value (at time $n$) of an annuity-immediate with $n$ payments is denoted by
+
+\vspace{3em}
+When there is no ambiguity about $i$, we use
+
+\vspace{2em}
+\begin{center}
+\annimm
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Sum of a geometric progression}
+
+Recall the sum of finite terms in a geometric progression:
+\begin{align*}
+S &= a + ar + ar^2 + ar^3 + \cdots + ar^{n-1} \\
+  &= \frac{a(1-r^n)}{1-r} = \frac{a(r^n-1)}{r-1}
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{AV of an ordinary annuity, cont'd}
+
+\begin{center}
+\annimm
+\end{center}
+
+\begin{align*}
+s_{\angl{n}i} &= 1 + (1+i) + (1+i)^2 + \cdots + (1+i)^{n-1} \\
+&= \frac{(1+i)^n - 1}{i}
+\end{align*}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Example 3.1}
+
+Emma is starting a 6-year university degree. Her grandmother wants to support her by giving her a \$5000 cash gift for each year she completes. Instead of spending this money, Emma decides to invest it. Assuming a 6\% effective rate of interest, how much will Emma have in her investment account right after the last gift she receives?
+
+\begin{center}
+\cftimeline{8}{0/0/{}, 2/1/{}, 5.5/5/{}, 7.5/6/{}}{\node at (3.75,-0.4) {$\ldots$};}
+\end{center}
+
+AV $= 5000\,s_{\angl{6}0.06} = \textbf{34,876.59}$
+
+\vfill
+\end{frame}
+
+\begin{frame}{Using a financial calculator}
+
+\begin{itemize}
+\item[] N = the number of compounding periods
+\item[] PV = 0
+\item[] I/Y = interest rate per compounding period
+\item[] PMT = periodic payments
+\item[] \colorbox{gray!30}{CPT} FV
+\end{itemize}
+
+\end{frame}
+
+%======================================================================
+\section{PV of an ordinary annuity}
+%======================================================================
+
+\begin{frame}{3.3 PV of an ordinary annuity}
+
+\begin{center}
+\annimm
+\end{center}
+
+\begin{align*}
+a_{\angl{n}} &= v + v^2 + \cdots + v^{n-1} + v^n \\
+&= \frac{1 - v^n}{i}
+\end{align*}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Example 3.1, continued}
+
+If Emma's grandmother expects her to finish all 6 years of university successfully, how much should she set aside today to fund the gifts? Assume she too can earn a 6\% effective rate of interest.
+
+\begin{center}
+\cftimeline{8}{0/0/{}, 2/1/5000, 5.5/5/5000, 7.5/6/5000}{\node at (3.75,-0.4) {$\ldots$}; \node at (3.75,0.4) {$\ldots$};}
+\end{center}
+
+PV $= 5000\,a_{\angl{6}0.06} = \textbf{24,586.62}$
+
+\vfill
+\end{frame}
+
+\begin{frame}{Using a financial calculator}
+
+\begin{itemize}
+\item[] N = the number of compounding periods
+\item[] FV = 0
+\item[] I/Y = interest rate per compounding period
+\item[] PMT = periodic payments
+\item[] \colorbox{gray!30}{CPT} PV
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Relationship between $a_{\angl{n}}$ and $s_{\angl{n}}$}
+
+\begin{center}
+\annimm
+\end{center}
+
+\bigskip
+\[
+a_{\angl{n}} \quad = v^n \quad s_{\angl{n}}
+\]
+
+\vfill
+\end{frame}
+
+\begin{frame}{Changing payment amounts}
+
+\underline{Example 3.2}: Emma's grandmother decides that Emma should get \$5,000 in each of the first 4 years of her studies, and then \$10,000 in each of the last 2 years. How much should the grandmother set aside in an account today earning a 6\% effective annual rate of interest?
+
+\begin{center}
+\cftimeline{7}{0/0/{}, 1/1/5K, 2/2/5K, 3/3/5K, 4/4/5K, 5/5/{\blue{10K}}, 6/6/{\blue{10K}}}{}
+\end{center}
+
+\vspace{-1ex}
+\begin{align*}
+\text{PV} &= 5000\,a_{\angl{6}0.06} \green{{}+ 5000v^5 + 5000v^6} \\
+&= 5000\,a_{\angl{4}0.06} + \blue{v^4\, 10000\,a_{\angl{2}0.06}}
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{Changing interest rates}
+
+\underline{Example 3.3}: Suppose Emma receives \$5000 a year and invests it. During her first four years of school she earns 6\% effective interest and during her last 2 years she earns 5\% effective. What is the acc'd value just after she receives the last payment?
+
+\begin{center}
+\cftimeline{7}{0/0/{}, 1/1/5000, 2/2/5000, 3/3/5000, 4/4/5000, 5/5/{\blue{5000}}, 6/6/{\blue{5000}}}{}
+\end{center}
+
+\[
+\text{AV} = \blue{5000\,s_{\angl{2}0.05}} + 5000\,s_{\angl{4}0.06}(1.05)^2
+\]
+
+\vfill
+\end{frame}
+
+% Timeline for splitting payment streams
+\newcommand{\splittimeline}{%
+  \cftimeline{9}{0/0/{}, 1/1/1, 2/2/1, 4/k/1, 5/k+1/{\blue{1}}, 6/k+2/{\blue{1}}, 7.6/{}/{\blue{1}}, 8.6/k+n/{\blue{1}}}%
+    {\node at (3,-0.4) {\small $\ldots$}; \node at (3,0.4) {\small $\ldots$};
+     \node at (6.8,-0.4) {\small $\ldots$}; \node at (6.8,0.4) {\small \blue{$\ldots$}};}%
+}
+
+\begin{frame}{Splitting payment streams}
+
+\begin{center}
+\splittimeline
+\end{center}
+\[
+a_{\angl{k+n}} = a_{\angl{k}} + \blue{v^k a_{\angl{n}}}
+\]
+
+\begin{center}
+\splittimeline
+\end{center}
+\[
+s_{\angl{k+n}} = (1+i)^n s_{\angl{k}} + \blue{s_{\angl{n}}}
+\]
+
+\end{frame}
+
+%======================================================================
+\section{Annuities due}
+%======================================================================
+
+\begin{frame}{3.4 Annuities due}
+
+\begin{center}
+\anndue
+\end{center}
+
+Accumulated value at the end of the term ($n$ years):
+\begin{align*}
+\ddot{s}_{\angl{n}} &= (1+i) + (1+i)^2 + \cdots + (1+i)^n \\
+&= \frac{(1+i)\bigl((1+i)^n - 1\bigr)}{1+i-1} = \frac{(1+i)^n - 1}{i/(1+i)} = \frac{(1+i)^n - 1}{d}
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{Example 3.1, continued}
+
+Suppose Emma's grandmother wants to gift her at the \textbf{beginning} of each year she attempts, rather than at the end of each year. How much would Emma have when she finishes her degree if she invests the gifts at a 6\% effective rate of interest?
+
+\begin{center}
+\cftimeline{8}{0/0/5000, 2/1/5000, 5.5/5/5000, 7.5/6/{}}{\node at (3.75,-0.4) {$\ldots$}; \node at (3.75,0.4) {$\ldots$};}
+\end{center}
+
+AV $= 5000\,\ddot{s}_{\angl{6}0.06} = (1.06)\,5000\,s_{\angl{6}0.06} = \textbf{36,969.19}$
+
+\vfill
+\end{frame}
+
+\begin{frame}{PV of annuity due}
+
+\begin{center}
+\anndue
+\end{center}
+
+Present value at the beginning of the term:
+\begin{align*}
+\ddot{a}_{\angl{n}} &= 1 + v + v^2 + \cdots + v^{n-1} \\
+&= \frac{1 - v^n}{1 - v} = \frac{1 - v^n}{d}
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{Example 3.1, continued}
+
+How much should Emma's grandmother set aside today to fund the beginning-of-year gifts, if she can earn a 6\% effective rate of interest?
+
+\begin{center}
+\cftimeline{8}{0/0/5000, 2/1/5000, 5.5/5/5000, 7.5/6/{}}{\node at (3.75,-0.4) {$\ldots$}; \node at (3.75,0.4) {$\ldots$};}
+\end{center}
+
+PV $= 5000\,\ddot{a}_{\angl{6}0.06} = (1.06)\,5000\,a_{\angl{6}0.06} = \textbf{26,061.82}$
+
+\vfill
+\end{frame}
+
+\begin{frame}{Relationship between $\ddot{a}_{\angl{n}}$ and $\ddot{s}_{\angl{n}}$}
+
+\begin{center}
+\anndue
+\end{center}
+
+\bigskip
+\[
+\ddot{a}_{\angl{n}} \quad = v^n \quad \ddot{s}_{\angl{n}}
+\]
+
+\vfill
+\end{frame}
+
+\begin{frame}{More relationships}
+
+\begin{center}
+\annimm
+\end{center}
+
+\bigskip
+\[
+a_{\angl{n}} = v\,\ddot{a}_{\angl{n}}
+\]
+
+\vfill
+\end{frame}
+
+\begin{frame}{More relationships, continued}
+
+\begin{center}
+\anndue
+\end{center}
+
+\bigskip
+\begin{flushright}
+$s_{\angl{n}} = v\,\ddot{s}_{\angl{n}}$
+\end{flushright}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Summary}
+
+\small
+\renewcommand{\arraystretch}{2.2}
+\begin{center}
+\begin{tabular}{@{}cc>{\centering\arraybackslash}m{0.36\textwidth}c@{}}
+\toprule
+\textbf{Notation} & \textbf{\# of pmts} & \textbf{Focal date} & \textbf{Formula} \\
+\midrule
+$a_{\angl{n}}$ & $n$ & One period before 1\textsuperscript{st} payment & $\dfrac{1-v^n}{i}$ \\
+$\ddot{a}_{\angl{n}}$ & $n$ & At time of 1\textsuperscript{st} payment & $\dfrac{1-v^n}{d}$ \\
+$s_{\angl{n}}$ & $n$ & At time of last payment & $\dfrac{(1+i)^n-1}{i}$ \\
+$\ddot{s}_{\angl{n}}$ & $n$ & One period after last payment & $\dfrac{(1+i)^n-1}{d}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Deferred annuities}
+
+$k$-year deferred, $n$-year ordinary annuity:
+\begin{center}
+\cftimeline{9.6}{0/0/{}, 1/1/{}, 2/2/{}, 4/k/{}, 5/k+1/1, 6/k+2/1, 7.8/{}/1, 9.2/k+n/1}%
+  {\node at (3,-0.4) {\small $\ldots$}; \node at (6.9,-0.4) {\small $\ldots$}; \node at (6.9,0.4) {\small $\ldots$};}
+\end{center}
+PV $= v^k\, a_{\angl{n}}$, \quad AV $= s_{\angl{n}}$
+
+\bigskip
+$k$-year deferred, $n$-year annuity due:
+\begin{center}
+\cftimeline{9.6}{0/0/{}, 1/1/{}, 2/2/{}, 4/k/1, 5/k+1/1, 6/k+2/1, 7.8/k+n-1/1, 9.2/k+n/{}}%
+  {\node at (3,-0.4) {\small $\ldots$}; \node at (6.9,0.4) {\small $\ldots$};}
+\end{center}
+PV $= v^k\, \ddot{a}_{\angl{n}}$, \quad AV $= \ddot{s}_{\angl{n}}$
+
+\end{frame}
+
+\begin{frame}{Annuity recap/example}
+
+Using $i = 6\%$, find the value of a 10-year annuity with payments of \$1 starting at time 2, determined at:
+
+\bigskip
+\begin{itemize}
+\item[] (a) $t = 0$: $v^2\,\ddot{a}_{\angl{10}0.06} = v\,a_{\angl{10}0.06}$
+\medskip
+\item[] \green{(b) $t = 1$: $v\,\ddot{a}_{\angl{10}0.06} = a_{\angl{10}0.06}$}
+\medskip
+\item[] \blue{(c) $t = 2$:} $\ddot{a}_{\angl{10}0.06} = (1.06)\,a_{\angl{10}0.06}$
+\medskip
+\item[] (d) $t = 4$: $(1.06)^2\,\ddot{a}_{\angl{10}0.06}$
+\medskip
+\item[] (e) $t = 12.5$: $(1.06)^{10.5}\,\ddot{a}_{\angl{10}0.06}$
+\end{itemize}
+
+\end{frame}
+
+%======================================================================
+\section{Finding the term of an annuity}
+%======================================================================
+
+\begin{frame}{3.5 Finding the term of an annuity}
+
+Often you will need to find the \green{term} of an annuity, given the present value, the regular payments and an interest rate.
+
+\medskip
+Most of the time, the resulting term will not be an integer multiple of the payment period.
+
+\medskip
+\underline{Example}: You borrow \$54,000 at $i^{(12)} = 3\%$ to buy a car. If the most you can afford to pay is \$550/month, how long will it take to pay off the loan?
+
+\vfill
+\end{frame}
+
+% Timeline 0, 1, 2, ..., 111, 112 for balloon/drop payments
+\newcommand{\loantimeline}{%
+  \cftimeline{7.5}{0/0/{}, 1/1/{}, 2/2/{}, 4/111/{}, 5/112/{}, 6/{}/{}}%
+    {\node at (3,-0.4) {\small $\ldots$};}%
+}
+
+\begin{frame}{Balloon payments}
+
+Instead of making a payment at an irregular time, we can adjust the last payment.
+
+\medskip
+One option is to increase the last payment. This is called a \blue{balloon payment}.
+
+\begin{center}
+\loantimeline
+\end{center}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Drop payments}
+
+Another option is to add a smaller payment one period after the last regular payment. This is called a \purple{drop payment}.
+
+\begin{center}
+\loantimeline
+\end{center}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Common mistakes}
+
+\begin{tabular}{@{}p{0.06\textwidth}p{0.86\textwidth}@{}}
+Q: & My calculator gives me a negative value for N. What do I do? \\[0.5ex]
+A: & You probably did not enter the sign of the payment (PMT) correctly. If your PV is \green{positive}, PMT needs to be \textcolor{red}{negative} in order to repay the loan. \\[1.5ex]
+Q: & I keep making calculation mistakes. How can I check the reasonableness of my answer? \\[0.5ex]
+A: & The time to pay back a loan should be more than PV $\div$ Payments. Always draw a time diagram. To check your answer, try a different focal date. \\
+\end{tabular}
+
+\end{frame}
+
+%======================================================================
+\section{Finding the interest rate}
+%======================================================================
+
+\begin{frame}{3.6 Finding the interest rate}
+
+Sometimes you know the PV (loan amount) or FV (the desired savings at some future date), as well as the payments and the term, so what you need to find is the interest rate.
+
+\medskip
+This is easy if you have a financial calculator.
+
+\medskip
+Your calculator actually runs an approximation algorithm to find the interest rate that satisfies your equation of value.
+
+\medskip
+You can do this too.
+
+\end{frame}
+
+\begin{frame}{Approximation methods}
+
+\begin{enumerate}
+\item Consider rates in 1\% increments, use linear approximation between closest rates
+\item Proper root-finding algorithms
+  \begin{enumerate}[a.]
+  \item Bisection
+  \item Newton--Raphson method
+  \end{enumerate}
+\item In Excel, you can use the RATE function or the Goal Seek feature (under Tools menu)
+\item In R, the NLRoot package has both bisection and Newton-Raphson methods
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Starting values}
+
+If you know the future value and the term, use
+\[
+i = \frac{\left(\dfrac{FV}{n}\right)^2 - 1}{FV}
+\]
+as your initial guess.
+
+\medskip
+If you know the present value and the term, use
+\[
+i = \frac{1 - \left(\dfrac{PV}{n}\right)^2}{PV}.
+\]
+
+\end{frame}
+
+\begin{frame}{Example}
+
+A 50,000 loan is being repaid with payments of 1200 at the end of each month for 5 years. Find $i^{(12)}$ being charged on the loan.
+
+\vspace{3em}
+$\dfrac{i^{(12)}}{12} = \textbf{1.283\%}$, \quad \textcolor{red}{$i^{(12)} = 15.396\%$}
+
+\vfill
+\end{frame}
+
+\begin{frame}{Example}
+
+A 50,000 loan is being repaid with payments of 1200 at the end of each month for first 2 years, and then 1500 for the last 3 years. Find $i^{(12)}$ being charged on the loan.
+
+\begin{align*}
+50000 &= 1200\,a_{\angl{24}j} + \frac{1}{(1+j)^{24}}\,1500\,a_{\angl{36}j} \\
+&= 1200\,\frac{1-v^{24}}{j} + v^{24}\,1500\,\frac{1-v^{36}}{j}
+\end{align*}
+
+\[
+50000 - 1200\,\frac{1-v^{24}}{j} - v^{24}\,1500\,\frac{1-v^{36}}{j} = 0
+\]
+
+\end{frame}
+
+\end{document}
